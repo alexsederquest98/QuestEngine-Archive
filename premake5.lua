@@ -1,6 +1,6 @@
 toolset "clang"
 
-include "Dependencies.lua"
+include "ProjectDependencies.lua"
 
 workspace "QuestEngine"
     architecture "x64"
