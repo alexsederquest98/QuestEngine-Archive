@@ -1,8 +1,7 @@
 #include <Quest.h>
 
 int main(int argc, char** argv)
-{
-	Quest::TestQuestExists();
+{;
 	Quest::Logger::Init();
 	QE_APP_TRACE("Trace");
 	QE_APP_DEBUG("Debug");
