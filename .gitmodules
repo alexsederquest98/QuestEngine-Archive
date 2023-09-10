@@ -1,0 +1,3 @@
+[submodule "Quest/vendor/spdlog"]
+	path = Quest/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
