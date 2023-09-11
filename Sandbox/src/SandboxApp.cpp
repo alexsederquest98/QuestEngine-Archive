@@ -9,6 +9,10 @@ int main(int argc, char** argv)
 	QE_APP_WARN("Warn");
 	QE_APP_ERROR("Error");
 	QE_APP_CRITICAL("Critical");
+
+	QE_CORE_ASSERT(5 == 4);
+	QE_CORE_ASSERT_MSG(5 == 4, "BAD MATH");
+	
 	return 0;
 }
 

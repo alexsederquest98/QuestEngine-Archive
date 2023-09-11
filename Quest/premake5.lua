@@ -26,6 +26,7 @@ project "Quest"
     includedirs {
         "src",
         "%{Includes.spdlog}",
+        "%{Includes.glfw}",
         --"%{IncludeDir.glad}",
         --"%{IncludeDir.imgui}",
         "$(VULKAN_SDK)/Include",
