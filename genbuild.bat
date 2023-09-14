@@ -1,2 +1,2 @@
-del /Q build
+::del /Q build
 cmake -B build . -T clangcl
