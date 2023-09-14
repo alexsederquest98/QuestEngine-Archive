@@ -8,17 +8,37 @@
 #include "spdlog/fmt/ostr.h"
 #pragma warning(pop)
 
+// might be problematic
+//#undef ERROR
 
 namespace Quest
 {
 	class Logger
 	{
 	public:
+		#pragma push_macro("ERROR")
+		#undef ERROR // defined in Windows.h which I believe is included somewhere in spdlog
+
+		enum class LogLevel
+		{
+			TRACE = 0, DEBUG, INFO, WARN, ERROR, CRITICAL
+		};
+		#pragma pop_macro("ERROR")
+
+
 		static void Init();
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_EngineLogger; }
+
+		static void SetApplicationName(std::string_view name);
+		static void SetCoreLogLevel(LogLevel level);
+		static void SetApplicationLogLevel(LogLevel level);
+		static void ResetCoreLogLevel();
+		static void ResetApplicationLogLevel();
+		static void SetLoggersToDefaults();
+
+		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
 		inline static std::shared_ptr<spdlog::logger>& GetApplicationLogger() { return s_ApplicationLogger; }
 	private:
-		static std::shared_ptr<spdlog::logger> s_EngineLogger;
+		static std::shared_ptr<spdlog::logger> s_CoreLogger;
 		static std::shared_ptr<spdlog::logger> s_ApplicationLogger;
 	};
 }
