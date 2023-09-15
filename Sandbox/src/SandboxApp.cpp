@@ -1,23 +1,19 @@
+#include "SandboxApp.h"
+
 #include <Quest.h>
 #include <QuestEntrypoint.h>
 
-class Sandbox : public Quest::Application {
-public:
-	Sandbox(Quest::Application::ApplicationSpecification spec)
-	: Application(spec), m_Specification(spec)
-	{
-		//PushLayer(new SandboxLayer());
-		//PushLayer(new Sandbox2D());
-		QE_APP_INFO("Sandbox Application Constructor");
-	}
+SandboxApp::SandboxApp(Quest::Application::ApplicationSpecification spec)
+	: Quest::Application(spec), m_Specification(spec)
+{
+	QE_APP_INFO("Sandbox Application Constructor");
+}
 
-	~Sandbox() {
+SandboxApp::~SandboxApp()
+{
 
-	}
-private:
-	Application::ApplicationSpecification m_Specification;
-};
+}
 
 Quest::Application* Quest::CreateApplication(Application::ApplicationSpecification spec) {
-	return new Sandbox(spec);
+	return new SandboxApp(spec);
 } 

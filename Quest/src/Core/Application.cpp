@@ -22,7 +22,7 @@ namespace Quest
 	{
 		while (m_Running)
 		{
-			QE_CORE_INFO("Application::Run()");
+			//QE_CORE_INFO("Application::Run()");
 		}
 	}
 
