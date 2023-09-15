@@ -1,35 +1,23 @@
 #include <Quest.h>
+#include <QuestEntrypoint.h>
 
-int main(int argc, char** argv)
-{;
-	Quest::Logger::Init();
-	QE_APP_TRACE("Trace");
-	QE_APP_DEBUG("Debug");
-	QE_APP_INFO("Info");
-	QE_APP_WARN("Warn");
-	QE_APP_ERROR("Error");
-	QE_APP_CRITICAL("Critical");
+class Sandbox : public Quest::Application {
+public:
+	Sandbox(Quest::Application::ApplicationSpecification spec)
+	: Application(spec), m_Specification(spec)
+	{
+		//PushLayer(new SandboxLayer());
+		//PushLayer(new Sandbox2D());
+		QE_APP_INFO("Sandbox Application Constructor");
+	}
 
-	QE_CORE_ASSERT(5 == 4);
-	QE_CORE_ASSERT_MSG(5 == 4, "BAD MATH");
-	
-	return 0;
-}
+	~Sandbox() {
 
-//class Sandbox : public Quest::Application {
-//public:
-//	Sandbox(Quest::ApplicationCommandLineArgs args)
-//	: Application("Sandbox", args)
-//	{
-//		//PushLayer(new SandboxLayer());
-//		PushLayer(new Sandbox2D());
-//	}
-//
-//	~Sandbox() {
-//
-//	}
-//};
-//
-//Quest::Application* Quest::CreateApplication(ApplicationCommandLineArgs args) {
-//	return new Sandbox(args);
-//} 
+	}
+private:
+	Application::ApplicationSpecification m_Specification;
+};
+
+Quest::Application* Quest::CreateApplication(Application::ApplicationSpecification spec) {
+	return new Sandbox(spec);
+} 

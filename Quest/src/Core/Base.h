@@ -3,13 +3,16 @@
 
 #include "Logger.h"
 
-namespace Quest
-{
-
-}
-
 #define QE_EXPAND_MACRO(x) x
 #define QE_STRINGIFY_MACRO(x) #x
+
+#if defined(_MSC_VER)
+	#define QE_DEBUG_BREAK() __debugbreak()
+#elif defined(__clang__)
+	#define QE_DEBUG_BREAK() __builtin_debugtrap()
+#else
+	#define QE_DEBUG_BREAK()
+#endif
 
 #define QE_ENABLE_ASSERTS
 #ifdef QE_ENABLE_ASSERTS
@@ -29,7 +32,7 @@ namespace Quest
 		}															\
 	}
 
-#define QE_APP_ASSERT(expr)								\
+	#define QE_APP_ASSERT(expr)								\
 	{													\
 		if (!(expr))									\
 		{												\
@@ -37,7 +40,7 @@ namespace Quest
 		}												\
 	}
 
-#define QE_APP_ASSERT_MSG(expr, msg)								\
+	#define QE_APP_ASSERT_MSG(expr, msg)								\
 	{																\
 		if (!(expr))												\
 		{															\
@@ -46,5 +49,14 @@ namespace Quest
 	}
 
 #else
-
+	#define QE_CORE_ASSERT(expr)
+	#define QE_CORE_ASSERT_MSG(expr, msg)
+	#define QE_APP_ASSERT(expr)
+	#define QE_APP_ASSERT_MSG(expr, msg)
 #endif
+
+namespace Quest
+{
+	void ABORT_EXECUTION();
+	void ABORT_EXECUTION_MSG(std::string_view msg);
+}

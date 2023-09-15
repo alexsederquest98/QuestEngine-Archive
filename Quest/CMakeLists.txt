@@ -36,7 +36,7 @@ set (QUEST_STATIC_LIBS
 
 message(STATUS "Building Quest Engine static library...")
 
-file (GLOB_RECURSE SOURCES src/*.cpp src/*.h include/Quest.h)
+file (GLOB_RECURSE SOURCES src/*.cpp src/*.h include/Quest.h include/QuestEntrypoint.h)
 #file (GLOB_RECURSE HEADERS include/Quest.h src/*.h)
 set (HEADERS
     src/    
