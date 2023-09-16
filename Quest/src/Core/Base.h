@@ -21,7 +21,8 @@
 	{													\
 		if (!(expr))									\
 		{												\
-			QE_CORE_CRITICAL("Assertion failed. {0}: {1}", __LINE__, __FILE__);		\
+			QE_CORE_CRITICAL("Assertion failed at line {0} in {1}", __LINE__, __FILE__);		\
+			QE_DEBUG_BREAK(); \
 		}												\
 	}
 
@@ -29,7 +30,8 @@
 	{																\
 		if (!(expr))												\
 		{															\
-			QE_CORE_CRITICAL("Assertion failed. {0}: {1}: {2}", QE_STRINGIFY_MACRO(msg), __LINE__, __FILE__);		\
+			QE_CORE_CRITICAL("Assertion failed at line {0} in {1}: {2}", __LINE__, __FILE__, (msg));		\
+			QE_DEBUG_BREAK(); \
 		}															\
 	}
 
@@ -37,7 +39,8 @@
 	{													\
 		if (!(expr))									\
 		{												\
-			QE_APP_CRITICAL("Assertion failed. {0}: {1}", __LINE__, __FILE__);		\
+			QE_APP_CRITICAL("Assertion failed at line {0} in {1}", __LINE__, __FILE__);		\
+			QE_DEBUG_BREAK(); \
 		}												\
 	}
 
@@ -45,7 +48,8 @@
 	{																\
 		if (!(expr))												\
 		{															\
-			QE_APP_CRITICAL("Assertion failed. {0}: {1}: {2}", QE_STRINGIFY_MACRO(msg), __LINE__, __FILE__);		\
+			QE_APP_CRITICAL("Assertion failed at line {0} in {1}: {2}", __LINE__, __FILE__, (msg));		\
+			QE_DEBUG_BREAK(); \
 		}															\
 	}
 
