@@ -42,5 +42,5 @@ namespace Quest
 	};
 
 	// Defined in the client
-	Application* CreateApplication(Application::ApplicationSpecification spec);
+	UniquePointer<Application> CreateApplication(Application::ApplicationSpecification spec);
 }

@@ -14,6 +14,6 @@ SandboxApp::~SandboxApp()
 
 }
 
-Quest::Application* Quest::CreateApplication(Application::ApplicationSpecification spec) {
-	return new SandboxApp(spec);
+Quest::UniquePointer<Quest::Application> Quest::CreateApplication(Application::ApplicationSpecification spec) {
+	return Quest::CreateUniquePointer<SandboxApp>(spec);
 } 

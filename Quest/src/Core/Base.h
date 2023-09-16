@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 
+#include "QuestTypes.h"
 #include "Logger.h"
 
 #define QE_EXPAND_MACRO(x) x
@@ -20,7 +21,7 @@
 	{													\
 		if (!(expr))									\
 		{												\
-			QE_CORE_CRITICAL("Assertion failed.");		\
+			QE_CORE_CRITICAL("Assertion failed. {0}: {1}", __LINE__, __FILE__);		\
 		}												\
 	}
 
@@ -28,7 +29,7 @@
 	{																\
 		if (!(expr))												\
 		{															\
-			QE_CORE_CRITICAL("Assertion failed. {0}", (msg));		\
+			QE_CORE_CRITICAL("Assertion failed. {0}: {1}: {2}", QE_STRINGIFY_MACRO(msg), __LINE__, __FILE__);		\
 		}															\
 	}
 
@@ -36,7 +37,7 @@
 	{													\
 		if (!(expr))									\
 		{												\
-			QE_APP_CRITICAL("Assertion failed.");		\
+			QE_APP_CRITICAL("Assertion failed. {0}: {1}", __LINE__, __FILE__);		\
 		}												\
 	}
 
@@ -44,7 +45,7 @@
 	{																\
 		if (!(expr))												\
 		{															\
-			QE_APP_CRITICAL("Assertion failed. {0}", (msg));		\
+			QE_APP_CRITICAL("Assertion failed. {0}: {1}: {2}", QE_STRINGIFY_MACRO(msg), __LINE__, __FILE__);		\
 		}															\
 	}
 
