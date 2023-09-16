@@ -3,7 +3,6 @@ bin/
 bin-int/
 
 # Visual Studio files and folder
-.vscode/
 .vs/
 **.sln
 **.vcxproj
@@ -16,4 +15,5 @@ bin-int/
 .claudiaideconfig
 
 # Directories
-build
+build/
+.cache/
