@@ -60,10 +60,12 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 #set (SOURCES "src/TestLib.cpp")
 #set (HEADERS "src/TestLib.h")
 
+
 add_library(${TARGET_NAME} ${QUEST_LIBRARY_TYPE} ${SOURCES})
+
+target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.h)
 
 target_link_libraries(${TARGET_NAME} PUBLIC ${Vulkan_LIBRARIES} ${QUEST_STATIC_LIBS})
 
 target_include_directories(${TARGET_NAME} PUBLIC ${HEADERS} ${Vulkan_INCLUDE_DIR} ${VENDOR_INCLUDES})
 
-target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.cpp)

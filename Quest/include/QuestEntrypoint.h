@@ -9,6 +9,7 @@ int main(int argc, char** argv)
 	QE_CORE_CRITICAL("Initializing Quest Engine...");
 
 	QE_CORE_WARN("hi");
+	
 
 	Quest::UniquePointer<Quest::Application> app = Quest::CreateApplication({
 		.AppName = "Quest Application",
