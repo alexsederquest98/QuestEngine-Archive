@@ -25,6 +25,7 @@ endif()
 
 # Vendor subdirectories (that need compiled)
 add_subdirectory(${QUEST_ROOT}/Quest/vendor/glfw)
+add_subdirectory(${QUEST_ROOT}/Quest/vendor/fmt)
 #add_subdirectory(QUEST_ROOT/Quest/vendor/glad)
 #add_subdirectory(QUEST_ROOT/Quest/vendor/imgui)
 #add_subdirectory(QUEST_ROOT/Quest/vendor/ImGuizmo)
@@ -32,6 +33,7 @@ add_subdirectory(${QUEST_ROOT}/Quest/vendor/glfw)
 
 set (QUEST_STATIC_LIBS
     glfw
+    fmt
 )
 
 message(STATUS "Building Quest Engine static library...")
@@ -46,6 +48,7 @@ set (HEADERS
 set(VENDOR_INCLUDES 
     vendor/spdlog/include/
     vendor/glfw/include/
+    vendor/fmt/include/
 )
 
 set(VULKAN_LIBRARIES
@@ -65,7 +68,7 @@ add_library(${TARGET_NAME} ${QUEST_LIBRARY_TYPE} ${SOURCES})
 
 target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.h)
 
-target_link_libraries(${TARGET_NAME} PUBLIC ${Vulkan_LIBRARIES} ${QUEST_STATIC_LIBS})
+target_link_libraries(${TARGET_NAME} PRIVATE ${Vulkan_LIBRARIES} ${QUEST_STATIC_LIBS})
 
 target_include_directories(${TARGET_NAME} PUBLIC ${HEADERS} ${Vulkan_INCLUDE_DIR} ${VENDOR_INCLUDES})
 
