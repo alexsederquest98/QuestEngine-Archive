@@ -5,3 +5,6 @@
 	path = Quest/vendor/glfw
 	url = https://github.com/alexsederquest98/glfw.git
 	ignore = untracked
+[submodule "Quest/vendor/fmt"]
+	path = Quest/vendor/fmt
+	url = https://github.com/fmtlib/fmt.git
