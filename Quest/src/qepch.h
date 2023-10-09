@@ -9,4 +9,4 @@
 
 #include <Core/QuestTypes.h>
 #include <Core/Base.h>
-#include <Core/Logger.h>
+#include <Core/Log.h>

@@ -5,10 +5,8 @@ extern Quest::UniquePointer<Quest::Application> Quest::CreateApplication(Quest::
 
 int main(int argc, char** argv)
 {
-	Quest::Logger::Init();
-	QE_CORE_CRITICAL("Initializing Quest Engine...");
-
-	QE_CORE_WARN("hi");
+	Quest::Log::Init();
+	QE_CORE_INFO("Initializing Quest Engine...");
 	
 
 	Quest::UniquePointer<Quest::Application> app = Quest::CreateApplication({

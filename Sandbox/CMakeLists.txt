@@ -10,5 +10,5 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 
 add_executable(Sandbox ${SOURCES})
-target_include_directories(Sandbox PRIVATE ${QUEST_ROOT}/Quest/include ${QUEST_ROOT}/Quest/vendor/spdlog/include)
+target_include_directories(Sandbox PRIVATE ${QUEST_ROOT}/Quest/include)
 target_link_libraries(Sandbox Quest)

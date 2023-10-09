@@ -8,6 +8,6 @@ void Quest::ABORT_EXECUTION()
 
 void Quest::ABORT_EXECUTION_MSG(std::string_view msg)
 {
-	QE_CORE_CRITICAL("Quest is aborting execution: {0}", msg);
+	//QE_CORE_CRITICAL("Quest is aborting execution: {0}", msg);
 	exit(0);
 }

@@ -24,8 +24,12 @@ endif()
 
 
 # Vendor subdirectories (that need compiled)
+message("Building glfw...")
 add_subdirectory(${QUEST_ROOT}/Quest/vendor/glfw)
-add_subdirectory(${QUEST_ROOT}/Quest/vendor/fmt)
+message("Done building glfw")
+message("Building fmt...")
+add_subdirectory(${QUEST_ROOT}/Quest/vendor/fmt EXCLUDE_FROM_ALL)
+message("Done building fmt")
 #add_subdirectory(QUEST_ROOT/Quest/vendor/glad)
 #add_subdirectory(QUEST_ROOT/Quest/vendor/imgui)
 #add_subdirectory(QUEST_ROOT/Quest/vendor/ImGuizmo)
@@ -46,7 +50,6 @@ set (HEADERS
 
 # vendor includes
 set(VENDOR_INCLUDES 
-    vendor/spdlog/include/
     vendor/glfw/include/
     vendor/fmt/include/
 )

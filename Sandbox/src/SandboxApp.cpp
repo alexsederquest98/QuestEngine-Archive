@@ -6,7 +6,7 @@
 SandboxApp::SandboxApp(Quest::Application::ApplicationSpecification spec)
 	: Quest::Application(spec), m_Specification(spec)
 {
-	QE_APP_INFO("Sandbox Application Constructor");
+	//QE_APP_INFO("Sandbox Application Constructor");
 }
 
 SandboxApp::~SandboxApp()
