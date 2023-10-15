@@ -38,5 +38,5 @@ namespace Quest
 	};
 
 	// Convienent typedef to avoid changing it once and forgetting to update everywhere
-	using EventFunc = std::function<void(Event& e)>;
+	using EventCallbackFunc = std::function<void(Event& e)>;
 }

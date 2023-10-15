@@ -2,7 +2,7 @@
 
 namespace Quest
 {
-	void EventManager::Subscribe(EventType type, EventFunc callback)
+	void EventManager::Subscribe(EventType type, EventCallbackFunc callback)
 	{
 		m_Subscribers[type].push_back(std::move(callback));
 	}

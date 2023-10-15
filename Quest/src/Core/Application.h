@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Base.h"
+#include "Window.h"
 #include "Events/EventManager.h"
 
 // This forward dec of main is so that I can set it as a friend to the Application class.
@@ -29,12 +30,17 @@ namespace Quest
 		};
 
 		Application(ApplicationSpecification spec);
-		~Application();
+		virtual ~Application();
+
+		Window& GetWindow() { return *m_Window; }
+
+		void OnEvent(Event& e);
 
 		void Close();
 	private:
 		void Run();
 	private:
+		Scope<Window> m_Window;
 		bool m_Running = true;
 
 		static Ref<EventManager> s_EventManager;

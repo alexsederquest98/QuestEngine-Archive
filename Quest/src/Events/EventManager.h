@@ -18,9 +18,9 @@ namespace Quest
 	{
 	public:
 		EventManager() {}
-		void Subscribe(EventType type, EventFunc callback);
+		void Subscribe(EventType type, EventCallbackFunc callback);
 		void FireEvent(Event& e);
 	private:
-		std::unordered_map<EventType, std::vector<EventFunc>> m_Subscribers;
+		std::unordered_map<EventType, std::vector<EventCallbackFunc>> m_Subscribers;
 	};
 }
