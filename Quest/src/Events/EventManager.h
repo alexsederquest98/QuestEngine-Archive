@@ -11,8 +11,8 @@ namespace Quest
 {
 	/*
 		Very simple event manager for now
-		It accumulates events during the main loop in Application and then it dispatches them all sequentially at the end of the main loop
-
+		Systems subscribe to event types with their respective callback functions
+		Then when an event is fired, it will call the callbacks associated to the event types
 	*/
 	class EventManager
 	{
