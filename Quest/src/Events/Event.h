@@ -9,6 +9,7 @@ namespace Quest
 {
 	// Lamda function binding for the callback function for the event
 	#define QE_BIND_EVENT_FUNC(func) [this](Event& e) { return this->func(std::forward<Event&>(e)); }
+	//#define QE_BIND_EVENT_FUNC(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
 	// Event enum for internal events
 	enum class EventType : uint8

@@ -1,5 +1,6 @@
 #include "qepch.h"
 #include "Application.h"
+#include "Debug/Profiler.h"
 
 namespace Quest
 {
@@ -17,6 +18,9 @@ namespace Quest
 		m_Window = Window::Create(WindowSpecification(spec.AppName));
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));
 
+		s_EventManager->Subscribe(EventType::MouseMoved, QE_BIND_EVENT_FUNC(OnMouseMoved));
+		s_EventManager->Subscribe(EventType::WindowClose, QE_BIND_EVENT_FUNC(OnWindowClose));
+
 		QE_CORE_INFO("Application Initialized");
 	}
 
@@ -30,12 +34,25 @@ namespace Quest
 		while (m_Running)
 		{
 			//QE_CORE_INFO("Application::Run()");
+			m_Window->OnUpdate();
 		}
 	}
 
 	void Application::OnEvent(Event& e)
 	{
+	}
 
+	void Application::OnWindowClose(Event& e)
+	{
+		WindowCloseEvent event = static_cast<WindowCloseEvent&>(e);
+		QE_CORE_DEBUG("WindowCloseEvent hit");
+		m_Running = false;
+	}
+
+	void Application::OnMouseMoved(Event& e)
+	{
+		MouseMovedEvent event = static_cast<MouseMovedEvent&>(e);
+		QE_CORE_DEBUG("{0}, {1}", event.GetX(), event.GetY());
 	}
 
 	void Application::Close()

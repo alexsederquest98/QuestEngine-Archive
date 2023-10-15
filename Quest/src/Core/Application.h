@@ -34,8 +34,11 @@ namespace Quest
 
 		Window& GetWindow() { return *m_Window; }
 		static Application& Get() { return *s_Instance; }
+		static Ref<EventManager> GetEventManager() { return s_EventManager; }
 
 		void OnEvent(Event& e);
+		void OnWindowClose(Event& e);
+		void OnMouseMoved(Event& e);
 
 		void Close();
 	private:

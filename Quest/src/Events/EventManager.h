@@ -4,6 +4,7 @@
 #include "ApplicationEvent.h"
 #include "WindowEvent.h"
 #include "KeyEvent.h"
+#include "MouseEvent.h"
 
 #include <vector>
 

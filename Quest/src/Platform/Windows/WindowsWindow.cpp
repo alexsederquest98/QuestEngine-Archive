@@ -1,6 +1,8 @@
 #include "qepch.h"
 #include "WindowsWindow.h"
 
+#include "Core/Application.h"
+
 #include "Events/WindowEvent.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
@@ -51,7 +53,8 @@ namespace Quest
 				data.m_Height = height;
 
 				WindowResizeEvent event(width, height);
-				data.m_EventCallback(event);
+				Application::GetEventManager()->FireEvent(event);
+				//data.m_EventCallback(event);
 			}
 		);
 
@@ -59,7 +62,7 @@ namespace Quest
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 				WindowCloseEvent event;
-				data.m_EventCallback(event);
+				Application::GetEventManager()->FireEvent(event);
 			}
 		);
 
@@ -72,19 +75,22 @@ namespace Quest
 				case GLFW_PRESS:
 				{
 					KeyPressedEvent event(key, 0);
-					data.m_EventCallback(event);
+					Application::GetEventManager()->FireEvent(event);
+					//data.m_EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
 					KeyReleasedEvent event(key);
-					data.m_EventCallback(event);
+					Application::GetEventManager()->FireEvent(event);
+					//data.m_EventCallback(event);
 					break;
 				}
 				case GLFW_REPEAT:
 				{
 					KeyPressedEvent event(key, 1);
-					data.m_EventCallback(event);
+					Application::GetEventManager()->FireEvent(event);
+					//data.m_EventCallback(event);
 					break;
 				}
 				}
@@ -96,7 +102,8 @@ namespace Quest
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				KeyTypedEvent event(keycode);
-				data.m_EventCallback(event);
+				Application::GetEventManager()->FireEvent(event);
+				//data.m_EventCallback(event);
 			}
 		);
 
@@ -109,13 +116,15 @@ namespace Quest
 				case GLFW_PRESS:
 				{
 					MouseButtonPressedEvent event(button);
-					data.m_EventCallback(event);
+					Application::GetEventManager()->FireEvent(event);
+					//data.m_EventCallback(event);
 					break;
 				}
 				case GLFW_RELEASE:
 				{
 					MouseButtonReleasedEvent event(button);
-					data.m_EventCallback(event);
+					Application::GetEventManager()->FireEvent(event);
+					//data.m_EventCallback(event);
 					break;
 				}
 				}
@@ -127,7 +136,8 @@ namespace Quest
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				MouseScrolledEvent event((float)xOffset, (float)yOffset);
-				data.m_EventCallback(event);
+				Application::GetEventManager()->FireEvent(event);
+				//data.m_EventCallback(event);
 			}
 		);
 
@@ -136,7 +146,8 @@ namespace Quest
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				MouseMovedEvent event((float)xPos, (float)yPos);
-				data.m_EventCallback(event);
+				Application::GetEventManager()->FireEvent(event);
+				//data.m_EventCallback(event);
 			}
 		);
 
