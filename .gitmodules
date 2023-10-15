@@ -9,3 +9,6 @@
 	path = Quest/vendor/imgui
 	url = https://github.com/alexsederquest98/imgui.git
 	branch = docking
+[submodule "Quest/vendor/optick"]
+	path = Quest/vendor/optick
+	url = https://github.com/bombomby/optick.git
