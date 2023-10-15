@@ -1,3 +1,4 @@
+#pragma once
 #include "Log.h"
 
 #define QE_ENABLE_ASSERTS

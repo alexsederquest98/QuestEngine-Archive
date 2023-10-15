@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../src/Core/QuestTypes.h"
 #include "../src/Core/Base.h"
 

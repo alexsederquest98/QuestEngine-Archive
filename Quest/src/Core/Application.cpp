@@ -38,11 +38,6 @@ namespace Quest
 		}
 	}
 
-	void Application::Test(Event& e)
-	{
-		QE_CORE_INFO("Application Test: {0}", e.data);
-	}
-
 	void Application::Close()
 	{
 		m_Running = false;

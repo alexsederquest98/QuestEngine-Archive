@@ -31,8 +31,6 @@ namespace Quest
 		Application(ApplicationSpecification spec);
 		~Application();
 
-		void Test(Event& e);
-
 		void Close();
 	private:
 		void Run();

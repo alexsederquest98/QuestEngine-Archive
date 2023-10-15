@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Core/Base.h"
 
 #include <string>
@@ -18,6 +20,10 @@ namespace Quest
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
+	// Macro for filling out virtual methods for derived events
+	#define EVENT_INFO_FILL(type) EventType GetEventType() const override { return EventType::type;} \
+									std::string GetName() const override { return #type; }
+
 	// Base event class
 	// Other events should all inherit from this
 	class Event
@@ -25,6 +31,7 @@ namespace Quest
 	public:
 		virtual EventType GetEventType() const = 0;
 		virtual std::string GetName() const = 0;
+		virtual std::string ToString() const { return GetName(); } // should override with a proper ToString specific to the event
 		
 		// for later
 		bool Handled = false;

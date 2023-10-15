@@ -1,5 +1,9 @@
+#pragma once
 #include "Core/Base.h"
 #include "Event.h"
+#include "ApplicationEvent.h"
+#include "WindowEvent.h"
+#include "KeyEvent.h"
 
 #include <vector>
 
