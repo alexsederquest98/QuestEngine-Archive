@@ -31,7 +31,9 @@ message("Building fmt...")
 add_subdirectory(${QUEST_ROOT}/Quest/vendor/fmt EXCLUDE_FROM_ALL)
 message("Done building fmt")
 #add_subdirectory(QUEST_ROOT/Quest/vendor/glad)
-#add_subdirectory(QUEST_ROOT/Quest/vendor/imgui)
+#message("Building imgui...")
+#add_subdirectory(${QUEST_ROOT}/Quest/vendor/imgui)
+#message("Done building imgui")
 #add_subdirectory(QUEST_ROOT/Quest/vendor/ImGuizmo)
 #add_subdirectory(QUEST_ROOT/Quest/vendor/yaml-cpp)
 
@@ -52,6 +54,7 @@ set (HEADERS
 set(VENDOR_INCLUDES 
     vendor/glfw/include/
     vendor/fmt/include/
+    vendor/imgui/
 )
 
 set(VULKAN_LIBRARIES

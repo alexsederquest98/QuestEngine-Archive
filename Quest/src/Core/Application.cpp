@@ -6,11 +6,13 @@ namespace Quest
 	Ref<EventManager> Application::s_EventManager = CreateRef<EventManager>();
 
 	bool Application::s_Instantiated = false;
+	Application* Application::s_Instance = nullptr;
 
 	Quest::Application::Application(ApplicationSpecification spec)
 	{
 		QE_CORE_ASSERT_MSG(!s_Instantiated, "Only 1 Application class may be used.");
 		s_Instantiated = true;
+		s_Instance = this;
 
 		m_Window = Window::Create(WindowSpecification(spec.AppName));
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));

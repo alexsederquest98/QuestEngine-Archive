@@ -33,6 +33,7 @@ namespace Quest
 		virtual ~Application();
 
 		Window& GetWindow() { return *m_Window; }
+		static Application& Get() { return *s_Instance; }
 
 		void OnEvent(Event& e);
 
@@ -47,6 +48,7 @@ namespace Quest
 
 		// Only allow 1 application to exist
 		static bool s_Instantiated;
+		static Application* s_Instance;
 		friend int ::main(int argc, char** argv);
 	};
 

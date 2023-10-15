@@ -5,3 +5,4 @@
 
 #include "../src/Core/Log.h"
 #include "../src/Core/Application.h"
+#include "../src/Events/EventManager.h"
