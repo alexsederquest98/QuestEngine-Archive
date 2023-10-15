@@ -3,6 +3,18 @@
 
 namespace Quest
 {
+	void eventTest1()
+	{
+		QE_CORE_DEBUG("event1");
+	}
+
+	void eventTest2()
+	{
+		QE_CORE_DEBUG("event2");
+	}
+
+	Ref<EventManager> Application::s_EventManager = CreateRef<EventManager>();
+
 	bool Application::s_Instantiated = false;
 
 	Quest::Application::Application(ApplicationSpecification spec)
@@ -22,8 +34,13 @@ namespace Quest
 	{
 		while (m_Running)
 		{
-			//QE_CORE_INFO("Application::Run()");
+			QE_CORE_INFO("Application::Run()");
 		}
+	}
+
+	void Application::Test(Event& e)
+	{
+		QE_CORE_INFO("Application Test: {0}", e.data);
 	}
 
 	void Application::Close()

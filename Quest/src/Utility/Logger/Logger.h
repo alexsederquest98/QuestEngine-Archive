@@ -87,7 +87,7 @@ namespace qlog
 
         void warn(std::string_view msg)
         {
-            fmt::print(fg(m_WarnFGColor), "{0}][WARN: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_WarnFGColor), "{0}[WARN]: {1}\n", m_LogName, msg);
         }
 
         void info(std::string_view msg)

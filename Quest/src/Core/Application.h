@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Base.h"
+#include "Events/EventManager.h"
 
 // This forward dec of main is so that I can set it as a friend to the Application class.
 // Since main is a friend, I can call the private Run() function from main and only main.
@@ -30,11 +31,15 @@ namespace Quest
 		Application(ApplicationSpecification spec);
 		~Application();
 
+		void Test(Event& e);
+
 		void Close();
 	private:
 		void Run();
 	private:
 		bool m_Running = true;
+
+		static Ref<EventManager> s_EventManager;
 
 		// Only allow 1 application to exist
 		static bool s_Instantiated;
@@ -42,5 +47,5 @@ namespace Quest
 	};
 
 	// Defined in the client
-	UniquePointer<Application> CreateApplication(Application::ApplicationSpecification spec);
+	Scope<Application> CreateApplication(Application::ApplicationSpecification spec);
 }
