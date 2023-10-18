@@ -1,12 +1,11 @@
 #pragma once
 
 // Set up some defines to toggle profiling later
-#include <optick.h>
 
-#define QE_PROFILE_FRAME(...)		OPTICK_FRAME(__VA_ARGS__)
-#define QE_PROFILE_FUNCTION(...)	OPTICK_EVENT(__VA_ARGS__)
-#define QE_PROFILE_THREAD(...)		OPTICK_THREAD(__VA_ARGS__)
-#define QE_PROFILE_TAG(NAME, ...)	OPTICK_TAG(NAME, __VA_ARGS__)
+#define QE_PROFILE_FRAME(...)
+#define QE_PROFILE_FUNCTION(...)	
+#define QE_PROFILE_THREAD(...)		
+#define QE_PROFILE_TAG(NAME, ...)	
 
 
 /*
