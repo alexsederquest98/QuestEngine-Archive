@@ -55,7 +55,7 @@ set(VENDOR_INCLUDES
     vendor/glfw/include/
     vendor/fmt/include/
     vendor/imgui/
-    vendor/optick/src/
+    vendor/glm/
 )
 
 set(VULKAN_LIBRARIES
