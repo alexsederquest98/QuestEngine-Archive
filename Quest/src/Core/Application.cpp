@@ -24,7 +24,7 @@ namespace Quest
 		s_EventManager->Subscribe(EventType::WindowClose, QE_BIND_EVENT_FUNC(OnWindowClose));
 		s_EventManager->Subscribe(EventType::KeyPressed, QE_BIND_EVENT_FUNC(OnKeyPress));
 
-		QE_CORE_INFO("Application Initialized");
+		QE_CORE_CRITICAL("Application Initialized");
 	}
 
 	Application::~Application()

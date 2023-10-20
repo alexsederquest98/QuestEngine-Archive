@@ -8,7 +8,7 @@ extern Quest::Scope<Quest::Application> Quest::CreateApplication(Quest::Applicat
 int main(int argc, char** argv)
 {
 	Quest::Log::Init();
-	QE_CORE_INFO("Initializing Quest Engine...");
+	QE_CORE_CRITICAL("Initializing Quest Engine...");
 	
 
 	Quest::Scope<Quest::Application> app = Quest::CreateApplication({

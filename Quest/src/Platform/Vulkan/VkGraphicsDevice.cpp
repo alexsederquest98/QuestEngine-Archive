@@ -5,6 +5,6 @@ namespace Quest
 {
 	VkGraphicsDevice::VkGraphicsDevice(const GraphicsDeviceSpecification& spec)
 	{
-		QE_CORE_INFO("Vk Graphics Device");
+		QE_CORE_CRITICAL("Vk Graphics Device");
 	}
 }

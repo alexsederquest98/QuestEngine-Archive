@@ -36,6 +36,7 @@ namespace Quest
 
 // Engine Logging Macros
 #define QE_CORE_FATAL(...) ::Quest::Log::GetCoreLogger()->Log(qlog::Logger::LogLevel::FATAL, __VA_ARGS__);
+#define QE_CORE_CRITICAL(...) ::Quest::Log::GetCoreLogger()->Log(qlog::Logger::LogLevel::CRITICAL, __VA_ARGS__);
 #define QE_CORE_ERROR(...) ::Quest::Log::GetCoreLogger()->Log(qlog::Logger::LogLevel::ERROR, __VA_ARGS__);
 #define QE_CORE_WARN(...) ::Quest::Log::GetCoreLogger()->Log(qlog::Logger::LogLevel::WARN, __VA_ARGS__);
 #define QE_CORE_INFO(...) ::Quest::Log::GetCoreLogger()->Log(qlog::Logger::LogLevel::INFO, __VA_ARGS__);
@@ -44,6 +45,7 @@ namespace Quest
 
 // Client Logging Macros
 #define QE_FATAL(...) ::Quest::Log::GetClientLogger()->Log(qlog::Logger::LogLevel::FATAL, __VA_ARGS__);
+#define QE_CRITICAL(...) ::Quest::Log::GetClientLogger()->Log(qlog::Logger::LogLevel::CRITICAL, __VA_ARGS__);
 #define QE_ERROR(...) ::Quest::Log::GetClientLogger()->Log(qlog::Logger::LogLevel::ERROR, __VA_ARGS__);
 #define QE_WARN(...) ::Quest::Log::GetClientLogger()->Log(qlog::Logger::LogLevel::WARN, __VA_ARGS__);
 #define QE_INFO(...) ::Quest::Log::GetClientLogger()->Log(qlog::Logger::LogLevel::INFO, __VA_ARGS__);

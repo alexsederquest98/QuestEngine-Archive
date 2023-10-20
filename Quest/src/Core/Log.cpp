@@ -12,10 +12,10 @@ namespace Quest
 	{
 		s_CoreLogger->Init();
 		s_CoreLogger->SetName("Quest");
-		s_CoreLogger->Log(qlog::Logger::LogLevel::INFO, "Quest Logger Initialized.");
+		s_CoreLogger->Log(qlog::Logger::LogLevel::CRITICAL, "Quest Logger Initialized.");
 
 		s_ClientLogger->Init();
 		s_ClientLogger->SetName("Client");
-		s_ClientLogger->Log(qlog::Logger::LogLevel::INFO, "Client Logger Initialized.");
+		s_ClientLogger->Log(qlog::Logger::LogLevel::CRITICAL, "Client Logger Initialized.");
 	}
 }

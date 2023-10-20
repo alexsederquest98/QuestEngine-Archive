@@ -14,7 +14,7 @@ namespace qlog
     public:
         enum class LogLevel
         {
-            FATAL = 0, ERROR, WARN, INFO, DEBUG, TRACE
+            FATAL = 0, CRITICAL, ERROR, WARN, INFO, DEBUG, TRACE
         };
 
         void Init()
@@ -56,6 +56,9 @@ namespace qlog
             case LogLevel::FATAL:
                 fatal(str);
                 break;
+            case LogLevel::CRITICAL:
+                critical(str);
+                break;
             case LogLevel::ERROR:
                 error(str);
                 break;
@@ -79,7 +82,13 @@ namespace qlog
         void fatal(std::string_view msg)
         {
             fmt::print(fg(m_FatalFGColor) | bg(m_FatalBGColor), "{0}[FATAL]: {1}\n", m_LogName, msg);
-            //exit(0);
+            exit(0);
+        }
+
+        // critical is fatal without the crash - good for highlighting critical stuff
+        void critical(std::string_view msg)
+        {
+            fmt::print(fg(m_FatalFGColor) | bg(m_FatalBGColor), "{0}[CRITICAL]: {1}\n", m_LogName, msg);
         }
 
         void error(std::string_view msg)
