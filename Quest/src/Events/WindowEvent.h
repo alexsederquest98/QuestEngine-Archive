@@ -24,14 +24,15 @@ namespace Quest
 
 		uint16 GetWidth() const { return m_Width; }
 		uint16 GetHeight() const { return m_Height; }
-
-		EVENT_INFO_FILL(WindowResize)
-			std::string ToString() const override
+		
+		std::string ToString() const override
 		{
 			std::stringstream stream;
 			stream << "WindowResizeEvent: " << m_Width << ", " << m_Height;
 			return stream.str();
 		}
+
+		EVENT_INFO_FILL(WindowResize)
 
 	private:
 		uint16 m_Width;

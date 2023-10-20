@@ -5,6 +5,7 @@
 #include "Base.h"
 #include "Window.h"
 #include "Events/EventManager.h"
+#include "Renderer/GraphicsDevice.h"
 
 // This forward dec of main is so that I can set it as a friend to the Application class.
 // Since main is a friend, I can call the private Run() function from main and only main.
@@ -39,6 +40,7 @@ namespace Quest
 		void OnEvent(Event& e);
 		void OnWindowClose(Event& e);
 		void OnMouseMoved(Event& e);
+		void OnKeyPress(Event& e);
 
 		void Close();
 	private:
@@ -46,6 +48,8 @@ namespace Quest
 	private:
 		Scope<Window> m_Window;
 		bool m_Running = true;
+
+		Scope<GraphicsDevice> m_GraphicsDevice;
 
 		static Ref<EventManager> s_EventManager;
 

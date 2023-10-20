@@ -9,7 +9,7 @@ namespace Quest
 	bool Application::s_Instantiated = false;
 	Application* Application::s_Instance = nullptr;
 
-	Quest::Application::Application(ApplicationSpecification spec)
+	Application::Application(ApplicationSpecification spec)
 	{
 		QE_CORE_ASSERT_MSG(!s_Instantiated, "Only 1 Application class may be used.");
 		s_Instantiated = true;
@@ -18,8 +18,11 @@ namespace Quest
 		m_Window = Window::Create(WindowSpecification(spec.AppName));
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));
 
+		m_GraphicsDevice = GraphicsDevice::Create();
+
 		s_EventManager->Subscribe(EventType::MouseMoved, QE_BIND_EVENT_FUNC(OnMouseMoved));
 		s_EventManager->Subscribe(EventType::WindowClose, QE_BIND_EVENT_FUNC(OnWindowClose));
+		s_EventManager->Subscribe(EventType::KeyPressed, QE_BIND_EVENT_FUNC(OnKeyPress));
 
 		QE_CORE_INFO("Application Initialized");
 	}
@@ -44,15 +47,21 @@ namespace Quest
 
 	void Application::OnWindowClose(Event& e)
 	{
-		WindowCloseEvent event = static_cast<WindowCloseEvent&>(e);
-		QE_CORE_DEBUG("WindowCloseEvent hit");
+		//WindowCloseEvent event = dynamic_cast<WindowCloseEvent&>(e);
+		//QE_CORE_DEBUG("{0}", e.ToString());
 		m_Running = false;
 	}
 
 	void Application::OnMouseMoved(Event& e)
 	{
-		MouseMovedEvent event = static_cast<MouseMovedEvent&>(e);
-		QE_CORE_DEBUG("{0}, {1}", event.GetX(), event.GetY());
+		//MouseMovedEvent event = dynamic_cast<MouseMovedEvent&>(e);
+		//QE_CORE_DEBUG("{0}, {1}", event.GetX(), event.GetY());
+		//QE_CORE_DEBUG("{0}", e.ToString());
+	}
+
+	void Application::OnKeyPress(Event& e)
+	{
+		QE_CORE_DEBUG("{0}", e.ToString());
 	}
 
 	void Application::Close()
