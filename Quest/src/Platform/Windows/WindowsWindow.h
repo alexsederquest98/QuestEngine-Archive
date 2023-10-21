@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Window.h"
+#include <string_view>
 #include <GLFW/glfw3.h>
 
 namespace Quest
@@ -21,6 +22,9 @@ namespace Quest
 
 		void SetEventCallback(const EventCallbackFunc& callback) override;
 		void SetVSync(bool enabled) override;
+		void SetTitle(std::string_view title) override;
+
+		float GetTime() const override { return (float)glfwGetTime(); }
 
 	private:
 		void Init(const WindowSpecification& spec);

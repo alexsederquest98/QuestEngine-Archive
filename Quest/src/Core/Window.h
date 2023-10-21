@@ -33,8 +33,10 @@ namespace Quest
 		virtual uint32 GetHeight() const = 0;
 		virtual void SetEventCallback(const EventCallbackFunc& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
+		virtual void SetTitle(std::string_view title) = 0;
 		virtual bool IsVSync() const = 0;
 		virtual void* GetNativeWindow() const = 0; // Be sure to cast this to the proper native window in the caller function
+		virtual float GetTime() const = 0; // This is not a great solution, but it's a simple way to get the glfw time for now
 
 		static Scope<Window> Create(const WindowSpecification& spec = WindowSpecification());
 	};

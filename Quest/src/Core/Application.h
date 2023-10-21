@@ -4,6 +4,7 @@
 
 #include "Base.h"
 #include "Window.h"
+#include "Timestep.h"
 #include "Events/EventManager.h"
 #include "Renderer/GraphicsDevice.h"
 
@@ -52,6 +53,8 @@ namespace Quest
 		Scope<GraphicsDevice> m_GraphicsDevice;
 
 		static Ref<EventManager> s_EventManager;
+
+		Timestep m_LastFrameTime = 0.0f;
 
 		// Only allow 1 application to exist
 		static bool s_Instantiated;

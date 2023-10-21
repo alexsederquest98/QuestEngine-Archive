@@ -13,6 +13,7 @@ namespace Quest
 		}
 
 		operator float() const { return m_Time; }
+		void operator=(const float& f) { m_Time = f; }
 		float GetSeconds() const { return m_Time; }
 		float GetMiliseconds() const { return m_Time * 1000.0f; }
 	private:

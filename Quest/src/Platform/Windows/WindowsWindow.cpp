@@ -176,4 +176,10 @@ namespace Quest
 
 		// swapchain stuff for vsync
 	}
+
+	void WindowsWindow::SetTitle(std::string_view title)
+	{
+		std::string newTitle = m_WindowData.m_Title + " - " + title.data() + " fps";
+		glfwSetWindowTitle(m_Window, newTitle.c_str());
+	}
 }

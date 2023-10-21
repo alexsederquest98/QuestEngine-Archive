@@ -1,6 +1,7 @@
 #include "qepch.h"
 #include "Application.h"
 #include "Debug/Profiler.h"
+#include "Utility/Timer.h"
 
 namespace Quest
 {
@@ -36,7 +37,14 @@ namespace Quest
 	{
 		while (m_Running)
 		{
-			//QE_CORE_INFO("Application::Run()");
+			// Frame timing
+			Timestep currentTime = m_Window->GetTime();
+			Timestep deltaTime = currentTime - m_LastFrameTime;
+			m_LastFrameTime = currentTime;
+
+			// Update window title
+			m_Window->SetTitle(std::to_string((int)(1.0 / deltaTime)));
+
 			m_Window->OnUpdate();
 		}
 	}
