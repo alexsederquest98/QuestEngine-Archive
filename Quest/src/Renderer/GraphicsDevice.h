@@ -11,6 +11,8 @@ namespace Quest
 
 		};
 
+		virtual ~GraphicsDevice() = default;
+
 		static Scope<GraphicsDevice> Create(const GraphicsDeviceSpecification& spec = GraphicsDeviceSpecification());
 	};
 }

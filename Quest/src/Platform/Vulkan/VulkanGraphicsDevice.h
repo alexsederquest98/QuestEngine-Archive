@@ -2,7 +2,9 @@
 #include "Core/Base.h"
 #include "Renderer/GraphicsDevice.h"
 
-#include "VulkanInstance.h"
+#include <vector>
+
+#include <vulkan/vulkan.h>
 
 namespace Quest
 {
@@ -16,8 +18,24 @@ namespace Quest
 		void Shutdown(); // clean up function
 
 		void CreateInstance();
+		void SetupDebugMessenger();
+
+		
+		// Instance helpers
+		std::vector<const char*> GetRequiredExtensions();
+
+		// Debug messenger specific functions
+		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+		bool CheckValidationLayerSupport();
+		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+		{
+			QE_CORE_DEBUG("Validation Layer: {0}", pCallbackData->pMessage);
+
+			return VK_FALSE;
+		}
 
 	private:
-		VulkanInstance m_Instance;
+		VkInstance m_Instance;
+		VkDebugUtilsMessengerEXT m_DebugMessenger;
 	};
 }

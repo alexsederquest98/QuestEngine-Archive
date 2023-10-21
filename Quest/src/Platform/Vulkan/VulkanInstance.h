@@ -1,4 +1,6 @@
 #pragma once
+
+#include <vector>
 #include <vulkan/vulkan.h>
 
 namespace Quest
@@ -12,7 +14,12 @@ namespace Quest
 		void Init();
 		void Shutdown();
 
-		VkInstance GetRaw();
+		VkInstance& GetRaw();
+
+	private:
+		std::vector<const char*> GetRequiredExtensions();
+		bool CheckValidationLayerSupport();
+
 	private:
 		VkInstance m_Instance;
 	};

@@ -71,7 +71,7 @@ namespace Quest
 		vkDestroyInstance(m_Instance, nullptr);
 	}
 
-	VkInstance VulkanInstance::GetRaw()
+	VkInstance& VulkanInstance::GetRaw()
 	{
 		return m_Instance;
 	}
