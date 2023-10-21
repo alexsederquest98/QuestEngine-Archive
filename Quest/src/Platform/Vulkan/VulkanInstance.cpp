@@ -2,12 +2,26 @@
 #include "Core/Base.h"
 #include "VulkanInstance.h"
 
+#include <vector>
+
 #include <GLFW/glfw3.h>
 
 namespace Quest
 {
 	VulkanInstance::VulkanInstance()
 	{
+		// Get how many extensions are supported
+		uint32 extensionCount = 0;
+		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+		QE_CORE_INFO("Vulkan - {0} extensions supported", extensionCount);
+
+		// Log the supported extensions
+		std::vector<VkExtensionProperties> extensions(extensionCount);
+		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, extensions.data());
+		QE_CORE_INFO("Available Vulkan Extensions:");
+		for (const auto& extension : extensions)
+			QE_CORE_INFO("\t\t{0}", extension.extensionName);
+
 		//Init();
 	}
 

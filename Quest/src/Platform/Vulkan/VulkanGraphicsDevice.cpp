@@ -2,16 +2,10 @@
 #include "Core/Base.h"
 #include "VulkanGraphicsDevice.h"
 
-#include <vulkan/vulkan.h>
-
 namespace Quest
 {
 	VulkanGraphicsDevice::VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec)
 	{
-		uint32 extensionCount = 0;
-		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-		QE_CORE_INFO("Vulkan - {0} extensions supported", extensionCount);
-
 		// Init Vulkan objects
 		Init();
 	}
