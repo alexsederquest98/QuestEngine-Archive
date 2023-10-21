@@ -40,6 +40,7 @@ namespace Quest
 
 		glfwSetErrorCallback(GLFWErrorCallback);
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // for Vulkan
+		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // temporary for now
 
 		m_Window = glfwCreateWindow((int)m_WindowData.m_Width, (int)m_WindowData.m_Height, m_WindowData.m_Title.c_str(), nullptr, nullptr);
 
