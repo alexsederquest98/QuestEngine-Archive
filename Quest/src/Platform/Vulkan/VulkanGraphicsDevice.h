@@ -46,7 +46,6 @@ namespace Quest
 		void CreateImageViews();
 		void CreateGraphicsPipeline();
 
-		
 		// Instance helper
 		std::vector<const char*> GetRequiredExtensions();
 
