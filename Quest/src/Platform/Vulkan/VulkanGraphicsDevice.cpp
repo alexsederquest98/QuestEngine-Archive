@@ -2,6 +2,8 @@
 #include "Core/Base.h"
 #include "VulkanGraphicsDevice.h"
 
+#include <set>
+
 #include <GLFW/glfw3.h>
 
 namespace Quest
@@ -41,6 +43,7 @@ namespace Quest
 
 	VulkanGraphicsDevice::VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec)
 	{
+		m_Window = spec.window;
 		// Init Vulkan objects
 		Init();
 	}
@@ -68,6 +71,7 @@ namespace Quest
 		// Initialize Vulkan Components
 		CreateInstance();
 		SetupDebugMessenger();
+		CreateSurface();
 		PickPhysicalDevice();
 		CreateLogicalDevice();
 	}
@@ -81,6 +85,9 @@ namespace Quest
 
 		if (enableValidationLayers)
 			DestroyDebugUtilsMessengerEXT(m_Instance, m_DebugMessenger, nullptr);
+
+		// Surface
+		vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 
 		// Instance
 		vkDestroyInstance(m_Instance, nullptr);
@@ -144,6 +151,14 @@ namespace Quest
 		}
 	}
 
+	void VulkanGraphicsDevice::CreateSurface()
+	{
+		if (glfwCreateWindowSurface(m_Instance, (GLFWwindow*)m_Window->GetNativeWindow(), nullptr, &m_Surface) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to create window surface");
+		}
+	}
+
 	void VulkanGraphicsDevice::PickPhysicalDevice()
 	{
 		uint32 deviceCount = 0;
@@ -176,22 +191,27 @@ namespace Quest
 	{
 		QueueFamilyIndices indices = FindQueueFamilies(m_PhysicalDevice);
 
-		// Queue with graphics capabilities
-		VkDeviceQueueCreateInfo queueCreateInfo{};
-		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-		queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value();
-		queueCreateInfo.queueCount = 1;
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 
 		float queuePriority = 1.0f;
-		queueCreateInfo.pQueuePriorities = &queuePriority;
+		for (uint32_t queueFamily : uniqueQueueFamilies)
+		{
+			VkDeviceQueueCreateInfo queueCreateInfo{};
+			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+			queueCreateInfo.queueFamilyIndex = queueFamily;
+			queueCreateInfo.queueCount = 1;
+			queueCreateInfo.pQueuePriorities = &queuePriority;
+			queueCreateInfos.push_back(queueCreateInfo);
+		}
 
 		// Will come back to add features
 		VkPhysicalDeviceFeatures deviceFeatures{};
 
 		VkDeviceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-		createInfo.pQueueCreateInfos = &queueCreateInfo;
-		createInfo.queueCreateInfoCount = 1;
+		createInfo.pQueueCreateInfos = queueCreateInfos.data();
+		createInfo.queueCreateInfoCount = static_cast<uint32>(queueCreateInfos.size());
 		createInfo.pEnabledFeatures = &deviceFeatures;
 
 		if (enableValidationLayers)
@@ -209,8 +229,9 @@ namespace Quest
 			QE_CORE_FATAL("Failed to create a Vulkan logical device");
 		}
 
-		// Set the graphics queue
+		// Set the graphics and present queue
 		vkGetDeviceQueue(m_Device, indices.graphicsFamily.value(), 0, &m_GraphicsQueue);
+		vkGetDeviceQueue(m_Device, indices.presentFamily.value(), 0, &m_PresentQueue);
 	}
 
 	std::vector<const char*> VulkanGraphicsDevice::GetRequiredExtensions()
@@ -257,6 +278,12 @@ namespace Quest
 		{
 			if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 				indices.graphicsFamily = i;
+
+			VkBool32 presentSupport = false;
+			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, m_Surface, &presentSupport);
+
+			if (presentSupport)
+				indices.presentFamily = i;
 
 			if (indices.isComplete())
 				break;

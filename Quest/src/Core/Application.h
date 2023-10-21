@@ -47,7 +47,7 @@ namespace Quest
 	private:
 		void Run();
 	private:
-		Scope<Window> m_Window;
+		Ref<Window> m_Window;
 		bool m_Running = true;
 
 		Scope<GraphicsDevice> m_GraphicsDevice;

@@ -8,8 +8,8 @@ namespace Quest
 {
 	// will need platform guards eventually
 	// but since I will be using glfw for now, a WindowsWindow will still be platform-agnostic
-	Scope<Window> Window::Create(const WindowSpecification& spec)
+	Ref<Window> Window::Create(const WindowSpecification& spec)
 	{
-		return CreateScope<WindowsWindow>(spec);
+		return CreateRef<WindowsWindow>(spec);
 	}
 }

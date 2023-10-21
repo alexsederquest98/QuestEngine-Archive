@@ -12,10 +12,11 @@ namespace Quest
 	struct QueueFamilyIndices
 	{
 		std::optional<uint32> graphicsFamily;
+		std::optional<uint32> presentFamily;
 
 		bool isComplete()
 		{
-			return graphicsFamily.has_value();
+			return graphicsFamily.has_value() && presentFamily.has_value();
 		}
 	};
 
@@ -31,6 +32,7 @@ namespace Quest
 		// Vulkan object creation functions
 		void CreateInstance();
 		void SetupDebugMessenger();
+		void CreateSurface();
 		void PickPhysicalDevice();
 		void CreateLogicalDevice();
 
@@ -54,8 +56,10 @@ namespace Quest
 	private:
 		VkInstance m_Instance;
 		VkDebugUtilsMessengerEXT m_DebugMessenger;
+		VkSurfaceKHR m_Surface;
 		VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
 		VkDevice m_Device;
 		VkQueue m_GraphicsQueue;
+		VkQueue m_PresentQueue;
 	};
 }
