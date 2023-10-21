@@ -44,7 +44,7 @@ set (QUEST_STATIC_LIBS
 
 message(STATUS "Building Quest Engine static library...")
 
-file (GLOB_RECURSE SOURCES src/*.cpp src/*.h include/Quest.h include/QuestEntrypoint.h vendor/optick/src/*.cpp vendor/optick/src/*.h)
+file (GLOB_RECURSE SOURCES src/*.cpp src/*.h include/Quest.h include/QuestEntrypoint.h assets/shaders/*.vert assets/shaders/*.frag)
 #file (GLOB_RECURSE HEADERS include/Quest.h src/*.h)
 set (HEADERS
     src/    

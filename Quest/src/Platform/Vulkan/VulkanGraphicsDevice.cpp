@@ -348,6 +348,11 @@ namespace Quest
 		}
 	}
 
+	void VulkanGraphicsDevice::CreateGraphicsPipeline()
+	{
+
+	}
+
 	std::vector<const char*> VulkanGraphicsDevice::GetRequiredExtensions()
 	{
 		uint32 glfwExtensionCount = 0;

@@ -44,6 +44,7 @@ namespace Quest
 		void CreateLogicalDevice();
 		void CreateSwapChain();
 		void CreateImageViews();
+		void CreateGraphicsPipeline();
 
 		
 		// Instance helper
