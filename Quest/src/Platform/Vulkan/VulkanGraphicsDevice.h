@@ -77,5 +77,8 @@ namespace Quest
 		VkQueue m_GraphicsQueue;
 		VkQueue m_PresentQueue;
 		VkSwapchainKHR m_SwapChain;
+		std::vector<VkImage> m_SwapChainImages;
+		VkFormat m_SwapChainImageFormat;
+		VkExtent2D m_SwapChainExtent;
 	};
 }

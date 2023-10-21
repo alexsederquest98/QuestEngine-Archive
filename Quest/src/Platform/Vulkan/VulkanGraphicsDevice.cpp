@@ -300,6 +300,15 @@ namespace Quest
 		{
 			QE_CORE_FATAL("Failed to create Vulkan swap chain");
 		}
+
+		// Retrieve the swap chain image handles
+		vkGetSwapchainImagesKHR(m_Device, m_SwapChain, &imageCount, nullptr);
+		m_SwapChainImages.resize(imageCount);
+		vkGetSwapchainImagesKHR(m_Device, m_SwapChain, &imageCount, m_SwapChainImages.data());
+
+		// Save the image format and extent
+		m_SwapChainImageFormat = surfaceFormat.format;
+		m_SwapChainExtent = extent;
 	}
 
 	std::vector<const char*> VulkanGraphicsDevice::GetRequiredExtensions()
