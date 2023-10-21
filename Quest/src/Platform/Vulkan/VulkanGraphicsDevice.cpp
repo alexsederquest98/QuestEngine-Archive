@@ -68,6 +68,8 @@ namespace Quest
 		// Initialize Vulkan Components
 		CreateInstance();
 		SetupDebugMessenger();
+		PickPhysicalDevice();
+		CreateLogicalDevice();
 	}
 
 	void VulkanGraphicsDevice::Shutdown()
@@ -149,7 +151,7 @@ namespace Quest
 
 		if (deviceCount == 0)
 		{
-			throw std::runtime_error("failed to find GPUs with Vulkan support!");
+			QE_CORE_FATAL("Failed to find GPUs with Vulkan support");
 		}
 
 		std::vector<VkPhysicalDevice> devices(deviceCount);
