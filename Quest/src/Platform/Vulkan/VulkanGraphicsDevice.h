@@ -78,16 +78,21 @@ namespace Quest
 		VkInstance m_Instance;
 		VkDebugUtilsMessengerEXT m_DebugMessenger;
 		VkSurfaceKHR m_Surface;
+
 		VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE;
 		VkDevice m_Device;
+
 		VkQueue m_GraphicsQueue;
 		VkQueue m_PresentQueue;
+
 		VkSwapchainKHR m_SwapChain;
 		std::vector<VkImage> m_SwapChainImages;
 		VkFormat m_SwapChainImageFormat;
 		VkExtent2D m_SwapChainExtent;
 		std::vector<VkImageView> m_SwapChainImageViews;
+
 		VkRenderPass m_RenderPass;
 		VkPipelineLayout m_PipelineLayout;
+		VkPipeline m_GraphicsPipeline;
 	};
 }
