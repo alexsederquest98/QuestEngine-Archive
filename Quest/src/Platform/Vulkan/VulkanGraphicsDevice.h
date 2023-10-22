@@ -46,6 +46,7 @@ namespace Quest
 		void CreateImageViews();
 		void CreateRenderPass();
 		void CreateGraphicsPipeline();
+		void CreateFramebuffers();
 
 		// Instance helper
 		std::vector<const char*> GetRequiredExtensions();
@@ -90,6 +91,7 @@ namespace Quest
 		VkFormat m_SwapChainImageFormat;
 		VkExtent2D m_SwapChainExtent;
 		std::vector<VkImageView> m_SwapChainImageViews;
+		std::vector<VkFramebuffer> m_SwapChainFramebuffers;
 
 		VkRenderPass m_RenderPass;
 		VkPipelineLayout m_PipelineLayout;

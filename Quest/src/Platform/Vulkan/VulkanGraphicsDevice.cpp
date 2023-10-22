@@ -86,11 +86,17 @@ namespace Quest
 		CreateImageViews();
 		CreateRenderPass();
 		CreateGraphicsPipeline();
+		CreateFramebuffers();
 	}
 
 	void VulkanGraphicsDevice::Shutdown()
 	{
 		QE_CORE_INFO("Shutting down Vulkan Graphics Device...");
+
+		for (auto framebuffer : m_SwapChainFramebuffers)
+		{
+			vkDestroyFramebuffer(m_Device, framebuffer, nullptr);
+		}
 
 		vkDestroyPipeline(m_Device, m_GraphicsPipeline, nullptr);
 		vkDestroyPipelineLayout(m_Device, m_PipelineLayout, nullptr);
@@ -533,6 +539,32 @@ namespace Quest
 		// Clean up shader modules
 		vkDestroyShaderModule(m_Device, vertShaderModule, nullptr);
 		vkDestroyShaderModule(m_Device, fragShaderModule, nullptr);
+	}
+
+	void VulkanGraphicsDevice::CreateFramebuffers()
+	{
+		m_SwapChainFramebuffers.resize(m_SwapChainImageViews.size());
+
+		for (size_t i = 0; i < m_SwapChainImageViews.size(); i++)
+		{
+			VkImageView attachments[] = {
+				m_SwapChainImageViews[i]
+			};
+
+			VkFramebufferCreateInfo framebufferInfo{};
+			framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
+			framebufferInfo.renderPass = m_RenderPass;
+			framebufferInfo.attachmentCount = 1;
+			framebufferInfo.pAttachments = attachments;
+			framebufferInfo.width = m_SwapChainExtent.width;
+			framebufferInfo.height = m_SwapChainExtent.height;
+			framebufferInfo.layers = 1;
+
+			if (vkCreateFramebuffer(m_Device, &framebufferInfo, nullptr, &m_SwapChainFramebuffers[i]) != VK_SUCCESS)
+			{
+				QE_CORE_FATAL("Failed to create Vulkan framebuffers");
+			}
+		}
 	}
 
 	std::vector<const char*> VulkanGraphicsDevice::GetRequiredExtensions()
