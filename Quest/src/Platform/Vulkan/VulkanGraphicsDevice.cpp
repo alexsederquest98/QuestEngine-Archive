@@ -88,6 +88,7 @@ namespace Quest
 		CreateGraphicsPipeline();
 		CreateFramebuffers();
 		CreateCommandPool();
+		CreateCommandBuffer();
 	}
 
 	void VulkanGraphicsDevice::Shutdown()
@@ -582,6 +583,20 @@ namespace Quest
 		if (vkCreateCommandPool(m_Device, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS)
 		{
 			QE_CORE_FATAL("Failed to create Vulkan command pool");
+		}
+	}
+
+	void VulkanGraphicsDevice::CreateCommandBuffer()
+	{
+		VkCommandBufferAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+		allocInfo.commandPool = m_CommandPool;
+		allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+		allocInfo.commandBufferCount = 1;
+
+		if (vkAllocateCommandBuffers(m_Device, &allocInfo, &m_CommandBuffer) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to allocate Vulkan command buffers");
 		}
 	}
 

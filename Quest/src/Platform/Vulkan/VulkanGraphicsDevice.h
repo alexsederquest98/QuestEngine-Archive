@@ -48,6 +48,7 @@ namespace Quest
 		void CreateGraphicsPipeline();
 		void CreateFramebuffers();
 		void CreateCommandPool();
+		void CreateCommandBuffer();
 
 		// Instance helper
 		std::vector<const char*> GetRequiredExtensions();
