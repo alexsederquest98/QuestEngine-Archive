@@ -44,6 +44,7 @@ namespace Quest
 		void CreateLogicalDevice();
 		void CreateSwapChain();
 		void CreateImageViews();
+		void CreateRenderPass();
 		void CreateGraphicsPipeline();
 
 		// Instance helper
@@ -86,6 +87,7 @@ namespace Quest
 		VkFormat m_SwapChainImageFormat;
 		VkExtent2D m_SwapChainExtent;
 		std::vector<VkImageView> m_SwapChainImageViews;
+		VkRenderPass m_RenderPass;
 		VkPipelineLayout m_PipelineLayout;
 	};
 }
