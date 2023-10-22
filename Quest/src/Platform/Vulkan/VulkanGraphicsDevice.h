@@ -47,6 +47,7 @@ namespace Quest
 		void CreateRenderPass();
 		void CreateGraphicsPipeline();
 		void CreateFramebuffers();
+		void CreateCommandPool();
 
 		// Instance helper
 		std::vector<const char*> GetRequiredExtensions();
@@ -96,5 +97,8 @@ namespace Quest
 		VkRenderPass m_RenderPass;
 		VkPipelineLayout m_PipelineLayout;
 		VkPipeline m_GraphicsPipeline;
+
+		VkCommandPool m_CommandPool;
+		VkCommandBuffer m_CommandBuffer;
 	};
 }

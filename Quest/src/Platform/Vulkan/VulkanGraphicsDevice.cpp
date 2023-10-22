@@ -87,11 +87,14 @@ namespace Quest
 		CreateRenderPass();
 		CreateGraphicsPipeline();
 		CreateFramebuffers();
+		CreateCommandPool();
 	}
 
 	void VulkanGraphicsDevice::Shutdown()
 	{
 		QE_CORE_INFO("Shutting down Vulkan Graphics Device...");
+
+		vkDestroyCommandPool(m_Device, m_CommandPool, nullptr);
 
 		for (auto framebuffer : m_SwapChainFramebuffers)
 		{
@@ -564,6 +567,21 @@ namespace Quest
 			{
 				QE_CORE_FATAL("Failed to create Vulkan framebuffers");
 			}
+		}
+	}
+
+	void VulkanGraphicsDevice::CreateCommandPool()
+	{
+		QueueFamilyIndices queueFamilyIndices = FindQueueFamilies(m_PhysicalDevice);
+
+		VkCommandPoolCreateInfo poolInfo{};
+		poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+		poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+		poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+
+		if (vkCreateCommandPool(m_Device, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to create Vulkan command pool");
 		}
 	}
 
