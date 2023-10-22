@@ -3,6 +3,9 @@
 #include "Debug/Profiler.h"
 #include "Utility/Timer.h"
 
+#include <thread>
+#include <chrono>
+
 namespace Quest
 {
 	Ref<EventManager> Application::s_EventManager = CreateRef<EventManager>();
@@ -46,6 +49,9 @@ namespace Quest
 			m_Window->SetTitle(std::to_string((int)(1.0 / deltaTime)));
 
 			m_Window->OnUpdate();
+
+			// limiting updates/sec for testing for now
+			std::this_thread::sleep_for(std::chrono::milliseconds(15));
 		}
 	}
 

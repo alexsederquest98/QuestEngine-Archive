@@ -60,6 +60,10 @@ namespace Quest
 		VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
 
+		// Pipeline/Shader helpers
+		std::vector<char> ReadShaderFromFile(const std::string& filename);
+		VkShaderModule CreateShaderModule(const std::vector<char>& code);
+
 		// Debug messenger specific functions
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 		bool CheckValidationLayerSupport();
@@ -82,5 +86,6 @@ namespace Quest
 		VkFormat m_SwapChainImageFormat;
 		VkExtent2D m_SwapChainExtent;
 		std::vector<VkImageView> m_SwapChainImageViews;
+		VkPipelineLayout m_PipelineLayout;
 	};
 }
