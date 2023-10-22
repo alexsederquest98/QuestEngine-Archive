@@ -50,6 +50,7 @@ namespace Quest
 	VulkanGraphicsDevice::VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec)
 	{
 		m_Window = spec.window;
+		
 		// Init Vulkan objects
 		Init();
 	}
