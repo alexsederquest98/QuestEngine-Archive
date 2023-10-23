@@ -52,6 +52,7 @@ namespace Quest
 		void CreateGraphicsPipeline();
 		void CreateFramebuffers();
 		void CreateCommandPool();
+		void CreateVertexBuffer();
 		void CreateCommandBuffers();
 		void CreateSyncObjects();
 
@@ -77,6 +78,9 @@ namespace Quest
 
 		// Command buffer  helper
 		void RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+
+		// Vertex buffer helpers
+		uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 		// Debug messenger specific functions
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -118,5 +122,8 @@ namespace Quest
 
 		bool m_FramebufferResized = false;
 		uint32_t m_CurrentFrame = 0;
+
+		VkBuffer m_VertexBuffer;
+		VkDeviceMemory m_VertexBufferMemory;
 	};
 }

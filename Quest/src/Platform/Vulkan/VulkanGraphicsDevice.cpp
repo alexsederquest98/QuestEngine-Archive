@@ -2,10 +2,13 @@
 #include "Core/Base.h"
 #include "VulkanGraphicsDevice.h"
 
+#include "Math/Vertex.h"
+
 #include <set>
 #include <limits>
 #include <algorithm>
 #include <fstream>
+#include <array>
 
 #include <GLFW/glfw3.h>
 
@@ -49,6 +52,41 @@ namespace Quest
 			func(instance, debugMessenger, pAllocator);
 		}
 	}
+
+	// vertex binding functions
+	static VkVertexInputBindingDescription GetVertexInputBindingDescription()
+	{
+		VkVertexInputBindingDescription bindingDescription{};
+		bindingDescription.binding = 0;
+		bindingDescription.stride = sizeof(qmath::Vertex);
+		bindingDescription.inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+
+		return bindingDescription;
+	}
+
+	static std::array<VkVertexInputAttributeDescription, 2> GetVertexInputAttributeDescriptions()
+	{
+		std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
+
+		attributeDescriptions[0].binding = 0;
+		attributeDescriptions[0].location = 0;
+		attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+		attributeDescriptions[0].offset = offsetof(qmath::Vertex, pos);
+
+		attributeDescriptions[1].binding = 0;
+		attributeDescriptions[1].location = 1;
+		attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
+		attributeDescriptions[1].offset = offsetof(qmath::Vertex, color);
+
+		return attributeDescriptions;
+	}
+
+	const std::vector<qmath::Vertex> vertices = {
+		{{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
+		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+		{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+	};
+
 
 	VulkanGraphicsDevice::VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec)
 	{
@@ -170,6 +208,7 @@ namespace Quest
 		CreateGraphicsPipeline();
 		CreateFramebuffers();
 		CreateCommandPool();
+		CreateVertexBuffer();
 		CreateCommandBuffers();
 		CreateSyncObjects();
 	}
@@ -179,6 +218,9 @@ namespace Quest
 		QE_CORE_INFO("Shutting down Vulkan Graphics Device...");
 
 		CleanupSwapChain();
+
+		vkDestroyBuffer(m_Device, m_VertexBuffer, nullptr);
+		vkFreeMemory(m_Device, m_VertexBufferMemory, nullptr);
 
 		vkDestroyPipeline(m_Device, m_GraphicsPipeline, nullptr);
 		vkDestroyPipelineLayout(m_Device, m_PipelineLayout, nullptr);
@@ -519,6 +561,14 @@ namespace Quest
 		vertexInputInfo.vertexAttributeDescriptionCount = 0;
 		vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
 
+		auto bindingDescription = GetVertexInputBindingDescription();
+		auto attributeDescriptions = GetVertexInputAttributeDescriptions();
+
+		vertexInputInfo.vertexBindingDescriptionCount = 1;
+		vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+		vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+		vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
+
 		VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
 		inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 		inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
@@ -673,6 +723,41 @@ namespace Quest
 		{
 			QE_CORE_FATAL("Failed to create Vulkan command pool");
 		}
+	}
+
+	void VulkanGraphicsDevice::CreateVertexBuffer()
+	{
+		VkBufferCreateInfo bufferInfo{};
+		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+		bufferInfo.size = sizeof(vertices[0]) * vertices.size();
+		bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+		if (vkCreateBuffer(m_Device, &bufferInfo, nullptr, &m_VertexBuffer) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to create vertex buffer");
+		}
+
+		VkMemoryRequirements memRequirements;
+		vkGetBufferMemoryRequirements(m_Device, m_VertexBuffer, &memRequirements);
+
+		VkMemoryAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+		allocInfo.allocationSize = memRequirements.size;
+		allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+		if (vkAllocateMemory(m_Device, &allocInfo, nullptr, &m_VertexBufferMemory) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to allocate vertex buffer memory");
+		}
+
+		vkBindBufferMemory(m_Device, m_VertexBuffer, m_VertexBufferMemory, 0);
+
+		// Create a raw buffer class later on
+		void* data;
+		vkMapMemory(m_Device, m_VertexBufferMemory, 0, bufferInfo.size, 0, &data);
+		memcpy(data, vertices.data(), (size_t)bufferInfo.size);
+		vkUnmapMemory(m_Device, m_VertexBufferMemory);
 	}
 
 	void VulkanGraphicsDevice::CreateCommandBuffers()
@@ -976,7 +1061,11 @@ namespace Quest
 			scissor.extent = m_SwapChainExtent;
 			vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-			vkCmdDraw(commandBuffer, 3, 1, 0, 0);
+			VkBuffer vertexBuffers[] = { m_VertexBuffer };
+			VkDeviceSize offsets[] = { 0 };
+			vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
+
+			vkCmdDraw(commandBuffer, static_cast<uint32_t>(vertices.size()), 1, 0, 0);
 
 		vkCmdEndRenderPass(commandBuffer);
 
@@ -984,6 +1073,23 @@ namespace Quest
 		{
 			QE_CORE_FATAL("Failed to record command buffer");
 		}
+	}
+
+	uint32_t VulkanGraphicsDevice::FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties)
+	{
+		VkPhysicalDeviceMemoryProperties memProperties;
+		vkGetPhysicalDeviceMemoryProperties(m_PhysicalDevice, &memProperties);
+
+		for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
+		{
+			if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties)
+			{
+				return i;
+			}
+		}
+
+		QE_CORE_FATAL("Failed to find suitable memory type");
+		return 0;
 	}
 
 	void VulkanGraphicsDevice::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
