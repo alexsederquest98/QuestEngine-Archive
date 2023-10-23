@@ -29,6 +29,7 @@ namespace Quest
 		s_EventManager->Subscribe(EventType::MouseMoved, QE_BIND_EVENT_FUNC(OnMouseMoved));
 		s_EventManager->Subscribe(EventType::WindowClose, QE_BIND_EVENT_FUNC(OnWindowClose));
 		s_EventManager->Subscribe(EventType::KeyPressed, QE_BIND_EVENT_FUNC(OnKeyPress));
+		s_EventManager->Subscribe(EventType::WindowResize, QE_BIND_EVENT_FUNC(OnWindowResize));
 
 		QE_CORE_CRITICAL("Application Initialized");
 	}
@@ -88,6 +89,15 @@ namespace Quest
 		
 		if (InputManager::IsKeyPressed(Key::Escape))
 			Close();
+	}
+
+	void Application::OnWindowResize(Event& e)
+	{
+		WindowResizeEvent event = static_cast<WindowResizeEvent&>(e);
+		if (event.GetWidth() == 0 || event.GetHeight() == 0)
+			m_Window->PauseWindow();
+
+		m_GraphicsDevice->FramebufferResize();
 	}
 
 	void Application::Close()

@@ -25,6 +25,17 @@ namespace Quest
 		Shutdown();
 	}
 
+	void WindowsWindow::PauseWindow()
+	{
+		int width = 0, height = 0;
+		glfwGetFramebufferSize(m_Window, &width, &height);
+		while (width == 0 || height == 0)
+		{
+			glfwGetFramebufferSize(m_Window, &width, &height);
+			glfwWaitEvents();
+		}
+	}
+
 	void WindowsWindow::Init(const WindowSpecification& spec)
 	{
 		m_WindowData.m_Title = spec.Title;
@@ -40,11 +51,20 @@ namespace Quest
 
 		glfwSetErrorCallback(GLFWErrorCallback);
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // for Vulkan
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // temporary for now
+		//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // temporary for now
 
 		m_Window = glfwCreateWindow((int)m_WindowData.m_Width, (int)m_WindowData.m_Height, m_WindowData.m_Title.c_str(), nullptr, nullptr);
 
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
+
+
+		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
+			{
+				WindowResizeEvent event(width, height);
+				Application::GetEventManager()->FireEvent(event);
+				//QE_CORE_WARN("FB - Width: {0}, Height: {1}", width, height);
+			}
+		);
 
 		// GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)

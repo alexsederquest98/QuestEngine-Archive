@@ -35,6 +35,7 @@ namespace Quest
 
 		void DrawFrame() override;
 		void WaitForDeviceToFinishExecuting() override;
+		void FramebufferResize() override { m_FramebufferResized = true; }
 	private:
 		void Init(); // Vulkan init function, initialize all the objects required for Vulkan to function
 		void Shutdown(); // clean up function
@@ -67,6 +68,8 @@ namespace Quest
 		VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 		VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
 		VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
+		void CleanupSwapChain();
+		void RecreateSwapChain();
 
 		// Pipeline/Shader helpers
 		std::vector<char> ReadShaderFromFile(const std::string& filename);
@@ -113,6 +116,7 @@ namespace Quest
 		std::vector<VkSemaphore> m_RenderFinishedSemaphores;
 		std::vector<VkFence> m_InFlightFences;
 
+		bool m_FramebufferResized = false;
 		uint32_t m_CurrentFrame = 0;
 	};
 }

@@ -68,12 +68,23 @@ namespace Quest
 	{
 		// Wait for fence
 		vkWaitForFences(m_Device, 1, &m_InFlightFences[m_CurrentFrame], VK_TRUE, UINT64_MAX);
+
+		uint32_t imageIndex;
+		// Acquire next swapchain image
+		VkResult result = vkAcquireNextImageKHR(m_Device, m_SwapChain, UINT64_MAX, m_ImageAvailableSemaphores[m_CurrentFrame], VK_NULL_HANDLE, &imageIndex);
+
+		if (result == VK_ERROR_OUT_OF_DATE_KHR)
+		{
+			RecreateSwapChain();
+			return;
+		}
+		else if (result != VK_SUCCESS && result != VK_SUBOPTIMAL_KHR)
+		{
+			QE_CORE_FATAL("Failed to acquire swap chain image");
+		}
+
 		// Set fence to unsignaled state
 		vkResetFences(m_Device, 1, &m_InFlightFences[m_CurrentFrame]);
-
-		// Acquire image from swapchain
-		uint32_t imageIndex;
-		vkAcquireNextImageKHR(m_Device, m_SwapChain, UINT64_MAX, m_ImageAvailableSemaphores[m_CurrentFrame], VK_NULL_HANDLE, &imageIndex);
 
 		// Reset command buffer
 		vkResetCommandBuffer(m_CommandBuffers[m_CurrentFrame], 0);
@@ -113,7 +124,17 @@ namespace Quest
 
 		presentInfo.pImageIndices = &imageIndex;
 
-		vkQueuePresentKHR(m_PresentQueue, &presentInfo);
+		result = vkQueuePresentKHR(m_PresentQueue, &presentInfo);
+
+		if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || m_FramebufferResized)
+		{
+			m_FramebufferResized = false;
+			RecreateSwapChain();
+		}
+		else if (result != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to present swap chain image");
+		}
 
 		m_CurrentFrame = (m_CurrentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 	}
@@ -157,6 +178,12 @@ namespace Quest
 	{
 		QE_CORE_INFO("Shutting down Vulkan Graphics Device...");
 
+		CleanupSwapChain();
+
+		vkDestroyPipeline(m_Device, m_GraphicsPipeline, nullptr);
+		vkDestroyPipelineLayout(m_Device, m_PipelineLayout, nullptr);
+		vkDestroyRenderPass(m_Device, m_RenderPass, nullptr);
+
 		for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
 		{
 			vkDestroySemaphore(m_Device, m_ImageAvailableSemaphores[i], nullptr);
@@ -166,24 +193,6 @@ namespace Quest
 		}
 
 		vkDestroyCommandPool(m_Device, m_CommandPool, nullptr);
-
-		for (auto framebuffer : m_SwapChainFramebuffers)
-		{
-			vkDestroyFramebuffer(m_Device, framebuffer, nullptr);
-		}
-
-		vkDestroyPipeline(m_Device, m_GraphicsPipeline, nullptr);
-		vkDestroyPipelineLayout(m_Device, m_PipelineLayout, nullptr);
-		vkDestroyRenderPass(m_Device, m_RenderPass, nullptr);
-
-		// Destroy image views
-		for (auto imageView : m_SwapChainImageViews)
-		{
-			vkDestroyImageView(m_Device, imageView, nullptr);
-		}
-
-		// SwapChain
-		vkDestroySwapchainKHR(m_Device, m_SwapChain, nullptr);
 
 		// Device
 		vkDestroyDevice(m_Device, nullptr);
@@ -867,6 +876,32 @@ namespace Quest
 
 			return actualExtent;
 		}
+	}
+
+	void VulkanGraphicsDevice::CleanupSwapChain()
+	{
+		for (size_t i = 0; i < m_SwapChainFramebuffers.size(); i++)
+		{
+			vkDestroyFramebuffer(m_Device, m_SwapChainFramebuffers[i], nullptr);
+		}
+
+		for (size_t i = 0; i < m_SwapChainImageViews.size(); i++)
+		{
+			vkDestroyImageView(m_Device, m_SwapChainImageViews[i], nullptr);
+		}
+
+		vkDestroySwapchainKHR(m_Device, m_SwapChain, nullptr);
+	}
+
+	void VulkanGraphicsDevice::RecreateSwapChain()
+	{
+		vkDeviceWaitIdle(m_Device);
+
+		CleanupSwapChain();
+
+		CreateSwapChain();
+		CreateImageViews();
+		CreateFramebuffers();
 	}
 
 	std::vector<char> VulkanGraphicsDevice::ReadShaderFromFile(const std::string& filename)

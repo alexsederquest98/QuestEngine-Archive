@@ -37,6 +37,7 @@ namespace Quest
 		virtual bool IsVSync() const = 0;
 		virtual void* GetNativeWindow() const = 0; // Be sure to cast this to the proper native window in the caller function
 		virtual float GetTime() const = 0; // This is not a great solution, but it's a simple way to get the glfw time for now
+		virtual void PauseWindow() = 0;
 
 		static Ref<Window> Create(const WindowSpecification& spec = WindowSpecification());
 	};

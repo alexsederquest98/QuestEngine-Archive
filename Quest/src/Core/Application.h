@@ -42,6 +42,7 @@ namespace Quest
 		void OnWindowClose(Event& e);
 		void OnMouseMoved(Event& e);
 		void OnKeyPress(Event& e);
+		void OnWindowResize(Event& e);
 
 		void Close();
 	private:

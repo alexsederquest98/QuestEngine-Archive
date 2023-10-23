@@ -26,6 +26,8 @@ namespace Quest
 
 		float GetTime() const override { return (float)glfwGetTime(); }
 
+		void PauseWindow() override;
+
 	private:
 		void Init(const WindowSpecification& spec);
 		void Shutdown();

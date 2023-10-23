@@ -19,6 +19,8 @@ namespace Quest
 
 		virtual void WaitForDeviceToFinishExecuting() = 0;
 
+		virtual void FramebufferResize() = 0;
+
 		static Scope<GraphicsDevice> Create(const GraphicsDeviceSpecification& spec);
 	protected:
 		Ref<Window> m_Window;
