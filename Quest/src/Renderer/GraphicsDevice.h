@@ -14,6 +14,11 @@ namespace Quest
 
 		virtual ~GraphicsDevice() = default;
 
+		// Temporary drawing functions
+		virtual void DrawFrame() = 0;
+
+		virtual void WaitForDeviceToFinishExecuting() = 0;
+
 		static Scope<GraphicsDevice> Create(const GraphicsDeviceSpecification& spec);
 	protected:
 		Ref<Window> m_Window;

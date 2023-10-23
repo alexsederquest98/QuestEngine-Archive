@@ -32,6 +32,9 @@ namespace Quest
 	public:
 		VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec);
 		~VulkanGraphicsDevice();
+
+		void DrawFrame() override;
+		void WaitForDeviceToFinishExecuting() override;
 	private:
 		void Init(); // Vulkan init function, initialize all the objects required for Vulkan to function
 		void Shutdown(); // clean up function
@@ -49,6 +52,7 @@ namespace Quest
 		void CreateFramebuffers();
 		void CreateCommandPool();
 		void CreateCommandBuffer();
+		void CreateSyncObjects();
 
 		// Instance helper
 		std::vector<const char*> GetRequiredExtensions();
@@ -104,5 +108,9 @@ namespace Quest
 
 		VkCommandPool m_CommandPool;
 		VkCommandBuffer m_CommandBuffer;
+
+		VkSemaphore m_ImageAvailableSemaphore;
+		VkSemaphore m_RenderFinishedSemaphore;
+		VkFence m_InFlightFence;
 	};
 }

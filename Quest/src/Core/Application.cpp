@@ -48,11 +48,18 @@ namespace Quest
 			// Update window title
 			m_Window->SetTitle(std::to_string((int)(1.0 / deltaTime)));
 
+			// Poll window events (input)
 			m_Window->OnUpdate();
 
+			// Draw frame
+			m_GraphicsDevice->DrawFrame();
+
 			// limiting updates/sec for testing for now
-			std::this_thread::sleep_for(std::chrono::milliseconds(15));
+			//std::this_thread::sleep_for(std::chrono::milliseconds(15));
 		}
+
+		// Make sure all work on the gpu is finished before deleting objects
+		m_GraphicsDevice->WaitForDeviceToFinishExecuting();
 	}
 
 	void Application::OnEvent(Event& e)
