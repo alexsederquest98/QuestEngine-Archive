@@ -68,6 +68,9 @@ namespace Quest
 		std::vector<char> ReadShaderFromFile(const std::string& filename);
 		VkShaderModule CreateShaderModule(const std::vector<char>& code);
 
+		// Command buffer  helper
+		void RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+
 		// Debug messenger specific functions
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 		bool CheckValidationLayerSupport();
