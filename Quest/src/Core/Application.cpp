@@ -3,6 +3,8 @@
 #include "Debug/Profiler.h"
 #include "Utility/Timer.h"
 
+#include "InputManager.h"
+
 #include <thread>
 #include <chrono>
 
@@ -83,6 +85,9 @@ namespace Quest
 	void Application::OnKeyPress(Event& e)
 	{
 		QE_CORE_DEBUG("{0}", e.ToString());
+		
+		if (InputManager::IsKeyPressed(Key::Escape))
+			Close();
 	}
 
 	void Application::Close()
