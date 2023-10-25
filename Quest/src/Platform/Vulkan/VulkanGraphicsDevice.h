@@ -53,6 +53,7 @@ namespace Quest
 		void CreateFramebuffers();
 		void CreateCommandPool();
 		void CreateVertexBuffer();
+		void CreateIndexbuffer();
 		void CreateCommandBuffers();
 		void CreateSyncObjects();
 
@@ -127,5 +128,7 @@ namespace Quest
 
 		VkBuffer m_VertexBuffer;
 		VkDeviceMemory m_VertexBufferMemory;
+		VkBuffer m_IndexBuffer;
+		VkDeviceMemory m_IndexBufferMemory;
 	};
 }
