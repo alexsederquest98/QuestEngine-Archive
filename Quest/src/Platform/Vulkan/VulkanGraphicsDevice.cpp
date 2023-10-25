@@ -84,7 +84,7 @@ namespace Quest
 	const std::vector<qmath::Vertex> vertices = {
 		{{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
 		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-		{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+		{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
 	};
 
 
@@ -727,36 +727,13 @@ namespace Quest
 
 	void VulkanGraphicsDevice::CreateVertexBuffer()
 	{
-		VkBufferCreateInfo bufferInfo{};
-		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-		bufferInfo.size = sizeof(vertices[0]) * vertices.size();
-		bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
-		if (vkCreateBuffer(m_Device, &bufferInfo, nullptr, &m_VertexBuffer) != VK_SUCCESS)
-		{
-			QE_CORE_FATAL("Failed to create vertex buffer");
-		}
-
-		VkMemoryRequirements memRequirements;
-		vkGetBufferMemoryRequirements(m_Device, m_VertexBuffer, &memRequirements);
-
-		VkMemoryAllocateInfo allocInfo{};
-		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-		allocInfo.allocationSize = memRequirements.size;
-		allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
-		if (vkAllocateMemory(m_Device, &allocInfo, nullptr, &m_VertexBufferMemory) != VK_SUCCESS)
-		{
-			QE_CORE_FATAL("Failed to allocate vertex buffer memory");
-		}
-
-		vkBindBufferMemory(m_Device, m_VertexBuffer, m_VertexBufferMemory, 0);
-
+		VkDeviceSize bufferSize = sizeof(vertices[0]) * vertices.size();
+		CreateBuffer(bufferSize, VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+			m_VertexBuffer, m_VertexBufferMemory);
 		// Create a raw buffer class later on
 		void* data;
-		vkMapMemory(m_Device, m_VertexBufferMemory, 0, bufferInfo.size, 0, &data);
-		memcpy(data, vertices.data(), (size_t)bufferInfo.size);
+		vkMapMemory(m_Device, m_VertexBufferMemory, 0, bufferSize, 0, &data);
+		memcpy(data, vertices.data(), (size_t)bufferSize);
 		vkUnmapMemory(m_Device, m_VertexBufferMemory);
 	}
 
@@ -931,12 +908,19 @@ namespace Quest
 	{
 		for (const auto& availablePresentMode : availablePresentModes)
 		{
+			if (availablePresentMode == VK_PRESENT_MODE_IMMEDIATE_KHR)
+			{
+				QE_CORE_WARN("Present Mode: IMMEDIATE_KHR");
+				return availablePresentMode;
+			}
 			if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
 			{
+				QE_CORE_WARN("Present Mode: MAILBOX_KHR");
 				return availablePresentMode;
 			}
 		}
 
+		QE_CORE_WARN("Pesent Mode: FIFO_KHR");
 		return VK_PRESENT_MODE_FIFO_KHR;
 	}
 
@@ -1090,6 +1074,35 @@ namespace Quest
 
 		QE_CORE_FATAL("Failed to find suitable memory type");
 		return 0;
+	}
+
+	void VulkanGraphicsDevice::CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory)
+	{
+		VkBufferCreateInfo bufferInfo{};
+		bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+		bufferInfo.size = sizeof(vertices[0]) * vertices.size();
+		bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
+		bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+
+		if (vkCreateBuffer(m_Device, &bufferInfo, nullptr, &m_VertexBuffer) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to create vertex buffer");
+		}
+
+		VkMemoryRequirements memRequirements;
+		vkGetBufferMemoryRequirements(m_Device, m_VertexBuffer, &memRequirements);
+
+		VkMemoryAllocateInfo allocInfo{};
+		allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+		allocInfo.allocationSize = memRequirements.size;
+		allocInfo.memoryTypeIndex = FindMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+
+		if (vkAllocateMemory(m_Device, &allocInfo, nullptr, &m_VertexBufferMemory) != VK_SUCCESS)
+		{
+			QE_CORE_FATAL("Failed to allocate vertex buffer memory");
+		}
+
+		vkBindBufferMemory(m_Device, m_VertexBuffer, m_VertexBufferMemory, 0);
 	}
 
 	void VulkanGraphicsDevice::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
