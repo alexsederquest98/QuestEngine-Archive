@@ -49,11 +49,13 @@ namespace Quest
 		void CreateSwapChain();
 		void CreateImageViews();
 		void CreateRenderPass();
+		void CreateDescriptorSetLayout();
 		void CreateGraphicsPipeline();
 		void CreateFramebuffers();
 		void CreateCommandPool();
 		void CreateVertexBuffer();
 		void CreateIndexbuffer();
+		void CreateUniformBuffers();
 		void CreateCommandBuffers();
 		void CreateSyncObjects();
 
@@ -85,6 +87,9 @@ namespace Quest
 		void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
 		void CopyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
+		// Uniform buffer helpers
+		void UpdateUniformBuffer(uint32_t currentImage);
+
 		// Debug messenger specific functions
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 		bool CheckValidationLayerSupport();
@@ -113,6 +118,7 @@ namespace Quest
 		std::vector<VkFramebuffer> m_SwapChainFramebuffers;
 
 		VkRenderPass m_RenderPass;
+		VkDescriptorSetLayout m_DescriptorSetLayout;
 		VkPipelineLayout m_PipelineLayout;
 		VkPipeline m_GraphicsPipeline;
 
@@ -130,5 +136,9 @@ namespace Quest
 		VkDeviceMemory m_VertexBufferMemory;
 		VkBuffer m_IndexBuffer;
 		VkDeviceMemory m_IndexBufferMemory;
+
+		std::vector<VkBuffer> m_UniformBuffers;
+		std::vector<VkDeviceMemory> m_UniformBuffersMemory;
+		std::vector<void*> m_UniformBuffersMapped;
 	};
 }
