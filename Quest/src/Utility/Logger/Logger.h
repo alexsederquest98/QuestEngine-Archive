@@ -6,6 +6,7 @@
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <fmt/color.h>
+#include <fmt/os.h>
 
 namespace qlog
 {
@@ -32,6 +33,8 @@ namespace qlog
 
             // Control defaults
             m_LogName = "[qlog]";
+
+            m_LogFileName = "log.qlog";
         }
 
         // Control getters/setters
@@ -45,6 +48,30 @@ namespace qlog
         std::string_view GetName()
         {
             return m_LogName;
+        }
+
+        void SetFileLogging(bool logToFile)
+        {
+            m_LogToFile = logToFile;
+
+            if (logToFile)
+                ResetLogFile();
+        }
+
+        bool GetFileLogging()
+        {
+            return m_LogToFile;
+        }
+
+        // DONT USE FOR NOW
+        void SetFileName(std::string_view filename)
+        {
+            m_LogFileName = filename;
+        }
+
+        std::string_view GetFileName()
+        {
+            return m_LogFileName;
         }
 
         template <typename... T>
@@ -81,39 +108,94 @@ namespace qlog
         // Log level specific printing functions
         void fatal(std::string_view msg)
         {
-            fmt::print(fg(m_FatalFGColor) | bg(m_FatalBGColor), "{0}[FATAL]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[FATAL]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_FatalFGColor) | bg(m_FatalBGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
+
             exit(0);
         }
 
         // critical is fatal without the crash - good for highlighting critical stuff
         void critical(std::string_view msg)
         {
-            fmt::print(fg(m_FatalFGColor) | bg(m_FatalBGColor), "{0}[CRITICAL]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[CRITICAL]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_FatalFGColor) | bg(m_FatalBGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
         }
 
         void error(std::string_view msg)
         {
-            fmt::print(fg(m_ErrorFGColor), "{0}[ERROR]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[ERROR]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_ErrorFGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
         }
 
         void warn(std::string_view msg)
         {
-            fmt::print(fg(m_WarnFGColor), "{0}[WARN]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[WARN]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_WarnFGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
         }
 
         void info(std::string_view msg)
         {
-            fmt::print(fg(m_InfoFGColor), "{0}[INFO]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[INFO]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_InfoFGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
         }
 
         void debug(std::string_view msg)
         {
-            fmt::print(fg(m_DebugFGColor), "{0}[DEBUG]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[DEBUG]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_DebugFGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
         }
 
         void trace(std::string_view msg)
         {
-            fmt::print(fg(m_TraceFGColor), "{0}[TRACE]: {1}\n", m_LogName, msg);
+            std::string str = fmt::format("{0}[TRACE]: {1}\n", m_LogName, msg);
+            fmt::print(fg(m_TraceFGColor), str);
+
+            if (m_LogToFile)
+            {
+                fmt::ostream out = fmt::output_file(m_LogFileName, fmt::file::WRONLY | fmt::file::CREATE | fmt::file::APPEND);
+                out.print("{}", str);
+            }
+        }
+    private:
+        void ResetLogFile()
+        {
+            fmt::ostream out = fmt::output_file(m_LogFileName);
         }
     private:
         // Log level text (foreground) colors
@@ -130,5 +212,7 @@ namespace qlog
         // Controls
         std::string m_LogName;
 
+        bool m_LogToFile = false;
+        std::string m_LogFileName;
     };
 }
