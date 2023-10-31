@@ -56,6 +56,7 @@ set(VENDOR_INCLUDES
     vendor/fmt/include/
     vendor/imgui/
     vendor/glm/
+    vendor/stb/
 )
 
 set(VULKAN_LIBRARIES
