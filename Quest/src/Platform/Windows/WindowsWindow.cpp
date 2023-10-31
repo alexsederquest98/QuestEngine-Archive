@@ -43,7 +43,7 @@ namespace Quest
 		m_WindowData.m_Height = spec.Height;
 		m_WindowData.m_VSync = true;
 
-		QE_CORE_CRITICAL("Creating Windows Window: {0} - ({1}), {2})", m_WindowData.m_Title, m_WindowData.m_Width, m_WindowData.m_Height);
+		QE_CORE_CRITICAL("Creating Windows Window: {0} - ({1}, {2})", m_WindowData.m_Title, m_WindowData.m_Width, m_WindowData.m_Height);
 
 		// Initialize GLFW
 		int success = glfwInit();
