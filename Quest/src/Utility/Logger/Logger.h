@@ -193,6 +193,7 @@ namespace qlog
             }
         }
     private:
+        // Crappy way to delete the file on startup for logging, does the job though
         void ResetLogFile()
         {
             fmt::ostream out = fmt::output_file(m_LogFileName);
