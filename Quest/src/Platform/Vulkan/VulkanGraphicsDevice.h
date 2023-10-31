@@ -53,6 +53,7 @@ namespace Quest
 		void CreateGraphicsPipeline();
 		void CreateFramebuffers();
 		void CreateCommandPool();
+		void CreateTextureImage();
 		void CreateVertexBuffer();
 		void CreateIndexbuffer();
 		void CreateUniformBuffers();
@@ -83,6 +84,8 @@ namespace Quest
 
 		// Command buffer  helper
 		void RecordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+		VkCommandBuffer BeginSingleTimeCommands();
+		void EndSingleTimeCommands(VkCommandBuffer commandBuffer);
 
 		// Vertex buffer helpers
 		uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
@@ -91,6 +94,11 @@ namespace Quest
 
 		// Uniform buffer helpers
 		void UpdateUniformBuffer(uint32_t currentImage);
+
+		// Image helper
+		void CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
+		void TransitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
+		void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
 
 		// Debug messenger specific functions
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -145,5 +153,8 @@ namespace Quest
 
 		VkDescriptorPool m_DescriptorPool;
 		std::vector<VkDescriptorSet> m_DescriptorSets;
+
+		VkImage m_TextureImage;
+		VkDeviceMemory m_TextureImageMemory;
 	};
 }
