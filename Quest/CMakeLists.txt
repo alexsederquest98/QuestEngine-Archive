@@ -57,6 +57,7 @@ set(VENDOR_INCLUDES
     vendor/imgui/
     vendor/glm/
     vendor/stb/
+    vendor/tinyobjloader/
 )
 
 set(VULKAN_LIBRARIES
