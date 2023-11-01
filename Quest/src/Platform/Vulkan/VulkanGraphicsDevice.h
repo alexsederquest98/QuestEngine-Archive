@@ -7,8 +7,13 @@
 
 #include <vulkan/vulkan.h>
 
+
+struct Vertex;
+
+
 namespace Quest
 {
+
 	struct QueueFamilyIndices
 	{
 		std::optional<uint32> graphicsFamily;
@@ -57,6 +62,7 @@ namespace Quest
 		void CreateTextureImage();
 		void CreateTextureImageView();
 		void CreateTextureSampler();
+		void LoadModel();
 		void CreateVertexBuffer();
 		void CreateIndexbuffer();
 		void CreateUniformBuffers();
@@ -151,6 +157,9 @@ namespace Quest
 		bool m_FramebufferResized = false;
 		uint32_t m_CurrentFrame = 0;
 
+		std::vector<Vertex> m_Vertices;
+		std::vector<uint32_t> m_Indices;
+
 		VkBuffer m_VertexBuffer;
 		VkDeviceMemory m_VertexBufferMemory;
 		VkBuffer m_IndexBuffer;
@@ -171,5 +180,6 @@ namespace Quest
 		VkImage m_DepthImage;
 		VkDeviceMemory m_DepthImageMemory;
 		VkImageView m_DepthImageView;
+
 	};
 }
