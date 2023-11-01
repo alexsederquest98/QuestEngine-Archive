@@ -53,6 +53,7 @@ namespace Quest
 		void CreateGraphicsPipeline();
 		void CreateFramebuffers();
 		void CreateCommandPool();
+		void CreateDepthResources();
 		void CreateTextureImage();
 		void CreateTextureImageView();
 		void CreateTextureSampler();
@@ -101,7 +102,12 @@ namespace Quest
 		void CreateImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
 		void TransitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 		void CopyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
-		VkImageView CreateImageView(VkImage image, VkFormat format);
+		VkImageView CreateImageView(VkImage image, VkFormat format, VkImageAspectFlags aspectFlags);
+
+		// Depth buffer helper
+		VkFormat FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+		VkFormat FindDepthFormat();
+		bool HasStencilComponent(VkFormat format);
 
 		// Debug messenger specific functions
 		void PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
@@ -161,5 +167,9 @@ namespace Quest
 		VkDeviceMemory m_TextureImageMemory;
 		VkImageView m_TextureImageView;
 		VkSampler m_TextureSampler;
+
+		VkImage m_DepthImage;
+		VkDeviceMemory m_DepthImageMemory;
+		VkImageView m_DepthImageView;
 	};
 }
