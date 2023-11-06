@@ -41,7 +41,7 @@ namespace Quest
 		m_WindowData.m_Title = spec.Title;
 		m_WindowData.m_Width = spec.Width;
 		m_WindowData.m_Height = spec.Height;
-		m_WindowData.m_VSync = true;
+		m_WindowData.m_VSync = false;
 
 		QE_CORE_CRITICAL("Creating Windows Window: {0} - ({1}, {2})", m_WindowData.m_Title, m_WindowData.m_Width, m_WindowData.m_Height);
 

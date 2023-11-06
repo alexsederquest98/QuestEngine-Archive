@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 # Set to use solution folders for organization
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+if (WIN32)
+    add_compile_definitions(QE_PLATFORM_WINDOWS)
+ENDIF()
+
+
 # Set project
 project(QuestEngine)
 
