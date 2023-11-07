@@ -26,6 +26,8 @@ namespace Quest
 		VulkanPhysicalDevice();
 		~VulkanPhysicalDevice();
 
+		const VkPhysicalDevice& GetPhysicalDevice() const { return m_PhysicalDevice; }
+
 		const VkPhysicalDeviceProperties& GetProperties() const { return m_Properties; }
 		const VkPhysicalDeviceFeatures& GetFeatures() const { return m_Features; }
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties() const { return m_MemoryProperties; }

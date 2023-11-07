@@ -59,7 +59,7 @@ namespace Quest
 
 	bool VulkanPhysicalDevice::IsDeviceSuitable(VkPhysicalDevice device)
 	{
-		VkPhysicalDeviceProperties deviceProperties;s;
+		VkPhysicalDeviceProperties deviceProperties;
 		vkGetPhysicalDeviceProperties(device, &deviceProperties);
 
 		QueueFamilyIndices indices = FindQueueFamilies(device);
