@@ -1,0 +1,4 @@
+Heirarchy:
+
+DeviceContext (interface for rendering commands) - drawindexed
+RenderDevice (interface for object creation - textures/buffers/shaders/etc) ~ creates objects on the device
