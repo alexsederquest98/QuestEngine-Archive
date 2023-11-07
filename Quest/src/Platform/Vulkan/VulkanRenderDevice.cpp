@@ -3,16 +3,6 @@
 
 #include <GLFW/glfw3.h>
 
-#ifdef NDEBUG
-const bool enableValidationLayers = false;
-#else
-const bool enableValidationLayers = true;
-#endif
-
-const std::vector<const char*> validationLayers = {
-		"VK_LAYER_KHRONOS_validation"
-};
-
 namespace Quest
 {
 	static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
@@ -32,7 +22,7 @@ namespace Quest
 		createInfo.pfnUserCallback = debugCallback;
 	}
 
-	static bool CheckValidationLayerSupport()
+	static bool CheckValidationLayerSupport(const std::vector<const char*> validationLayers)
 	{
 		uint32 layerCount;
 		vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
@@ -92,7 +82,13 @@ namespace Quest
 
 		// Initialize the vulkan instance
 		CreateInstance();
+		// Setup debug messenger
 		SetupDebugMessenger();
+
+		// Select the physical device
+		m_PhysicalDevice = VulkanPhysicalDevice::ChoosePhysicalDevice();
+		// Create the logical device
+		m_Device = VulkanDevice::CreateLogicalDevice(m_PhysicalDevice, validationLayers, enableValidationLayers);
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()
@@ -101,8 +97,23 @@ namespace Quest
 		s_Instance = nullptr;
 	}
 
+	const bool VulkanRenderDevice::GetEnabledValidation()
+	{
+		return enableValidationLayers;
+	}
+
+	const std::vector<const char*> VulkanRenderDevice::GetValidationLayers()
+	{
+		return validationLayers;
+	}
+
 	void VulkanRenderDevice::CreateInstance()
 	{
+		if (enableValidationLayers && !CheckValidationLayerSupport(validationLayers))
+		{
+			QE_CORE_FATAL("Validations layers requested but not available");
+		}
+
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
 		appInfo.pApplicationName = "Quest";

@@ -31,6 +31,8 @@ namespace Quest
 		const VkPhysicalDeviceProperties& GetProperties() const { return m_Properties; }
 		const VkPhysicalDeviceFeatures& GetFeatures() const { return m_Features; }
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties() const { return m_MemoryProperties; }
+
+		static Ref<VulkanPhysicalDevice> ChoosePhysicalDevice();
 	private:
 		VkPhysicalDevice PickPhysicalDevice(VkInstance instance);
 		bool IsDeviceSuitable(VkPhysicalDevice device);
@@ -49,8 +51,14 @@ namespace Quest
 	class VulkanDevice
 	{
 	public:
-		VulkanDevice();
+		VulkanDevice(const Ref<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers);
 		~VulkanDevice();
+
+		VkQueue GetGraphicsQueue() { return m_GraphicsQueue; }
+		const Ref<VulkanPhysicalDevice>& GetPhysicalDevice() const { return m_PhysicalDevice; }
+		VkDevice GetDevice() const { return m_Device; }
+
+		static Ref<VulkanDevice> CreateLogicalDevice(const Ref<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers);
 	private:
 	private:
 		VkDevice m_Device;
