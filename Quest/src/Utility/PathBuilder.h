@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Core/Base.h"
-#define _CRT_SECURE_NO_WARNINGS // relook into this later
 #include <cstdlib>
 #include <string>
 #include <sstream>

@@ -77,6 +77,8 @@ add_library(${TARGET_NAME} ${QUEST_LIBRARY_TYPE} ${SOURCES})
 
 target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.h)
 
+target_compile_definitions(${TARGET_NAME} PRIVATE GLM_FORCE_DEPTH_ZERO_TO_ONE=1 _CRT_SECURE_NO_WARNINGS=1)
+
 target_link_libraries(${TARGET_NAME} PRIVATE ${Vulkan_LIBRARIES} ${QUEST_STATIC_LIBS})
 
 target_include_directories(${TARGET_NAME} PUBLIC ${HEADERS} ${Vulkan_INCLUDE_DIR} ${VENDOR_INCLUDES})
