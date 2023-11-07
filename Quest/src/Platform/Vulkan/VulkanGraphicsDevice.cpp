@@ -1,6 +1,7 @@
 #include "qepch.h"
 #include "Core/Base.h"
 #include "VulkanGraphicsDevice.h"
+#include "Utility/PathBuilder.h"
 
 //#include "Math/Vertex.h"
 #define GLM_FORCE_RADIANS
@@ -124,8 +125,8 @@ namespace Quest
 		}
 	}
 
-	const std::string MODEL_PATH = "../../Quest/assets/models/viking_room.obj";
-	const std::string TEXTURE_PATH = "../../Quest/assets/textures/viking_room.png";
+	const std::string MODEL_PATH = BuildPath("models/viking_room.obj");
+	const std::string TEXTURE_PATH = BuildPath("textures/viking_room.png");
 
 	struct UniformBufferObject
 	{
@@ -635,8 +636,8 @@ namespace Quest
 	void VulkanGraphicsDevice::CreateGraphicsPipeline()
 	{
 		// Will obviously be properly abstracting the file paths later
-		auto vertShaderCode = ReadShaderFromFile("C:/Development/QuestEngine/Quest/assets/shaders/triangle-vert.spv");
-		auto fragShaderCode = ReadShaderFromFile("C:/Development/QuestEngine/Quest/assets/shaders/triangle-frag.spv");
+		auto vertShaderCode = ReadShaderFromFile(BuildPath("shaders/triangle-vert.spv"));
+		auto fragShaderCode = ReadShaderFromFile(BuildPath("shaders/triangle-frag.spv"));
 		QE_CORE_DEBUG("Vert shader size: {0}", vertShaderCode.size());
 		QE_CORE_DEBUG("Frag shader size: {0}", fragShaderCode.size());
 

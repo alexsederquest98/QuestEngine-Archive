@@ -4,7 +4,6 @@
 #include "Utility/Timer.h"
 
 #include "InputManager.h"
-#include "Utility/PathBuilder.h"
 
 #include <thread>
 #include <chrono>
@@ -33,8 +32,6 @@ namespace Quest
 		s_EventManager->Subscribe(EventType::WindowResize, QE_BIND_EVENT_FUNC(OnWindowResize));
 
 		QE_CORE_CRITICAL("Application Initialized");
-
-		QE_CORE_WARN("{}", BuildPath("assets/models/taco.jpg"));
 	}
 
 	Application::~Application()
