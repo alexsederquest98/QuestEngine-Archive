@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Base.h"
-#include "Renderer/GraphicsDevice.h"
+#include "Renderer/IRenderDevice.h"
 
 #include <vector>
 #include <optional>
@@ -32,10 +32,10 @@ namespace Quest
 		std::vector<VkPresentModeKHR> presentModes;
 	};
 
-	class VulkanGraphicsDevice : public GraphicsDevice
+	class VulkanGraphicsDevice : public IRenderDevice
 	{
 	public:
-		VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec);
+		VulkanGraphicsDevice(const RenderDeviceSpecification& spec);
 		~VulkanGraphicsDevice();
 
 		void DrawFrame() override;

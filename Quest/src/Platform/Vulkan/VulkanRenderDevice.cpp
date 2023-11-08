@@ -75,8 +75,10 @@ namespace Quest
 		}
 	}
 
-	VulkanRenderDevice::VulkanRenderDevice()
+	VulkanRenderDevice::VulkanRenderDevice(const RenderDeviceSpecification& spec)
 	{
+		m_Window = spec.window;
+
 		QE_CORE_ASSERT_MSG(glfwVulkanSupported(), "GLFW needs to have Vulkan support");
 		// Check for vulkan supported version here later
 
@@ -89,12 +91,27 @@ namespace Quest
 		m_PhysicalDevice = VulkanPhysicalDevice::ChoosePhysicalDevice();
 		// Create the logical device
 		m_Device = VulkanDevice::CreateLogicalDevice(m_PhysicalDevice, validationLayers, enableValidationLayers);
+
+		// Surface and swapchain
+		m_SwapChain = CreateRef<VulkanSwapChain>();
+		m_SwapChain->Init(s_Instance, m_Device, m_Window);
+		m_SwapChain->InitSurface();
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()
 	{
 		vkDestroyInstance(s_Instance, nullptr);
 		s_Instance = nullptr;
+	}
+
+	void VulkanRenderDevice::DrawFrame()
+	{
+	}
+
+	void VulkanRenderDevice::WaitForDeviceToFinishExecuting()
+	{
+		// Make this a method in the device later
+		vkDeviceWaitIdle(m_Device->GetDevice());
 	}
 
 	const bool VulkanRenderDevice::GetEnabledValidation()

@@ -24,7 +24,7 @@ namespace Quest
 		m_Window = Window::Create(WindowSpecification(spec.AppName));
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));
 
-		m_GraphicsDevice = GraphicsDevice::Create({.window = m_Window });
+		m_GraphicsDevice = IRenderDevice::Create({.window = m_Window });
 
 		s_EventManager->Subscribe(EventType::MouseMoved, QE_BIND_EVENT_FUNC(OnMouseMoved));
 		s_EventManager->Subscribe(EventType::WindowClose, QE_BIND_EVENT_FUNC(OnWindowClose));

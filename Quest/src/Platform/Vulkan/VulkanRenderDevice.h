@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Core/Base.h"
+#include "Renderer/IRenderDevice.h"
+
 #include "VulkanDevice.h"
+#include "VulkanSwapChain.h"
 
 #include <vulkan/vulkan.h>
 
@@ -9,11 +12,15 @@
 
 namespace Quest
 {
-	class VulkanRenderDevice
+	class VulkanRenderDevice : public IRenderDevice
 	{
 	public:
-		VulkanRenderDevice();
+		VulkanRenderDevice(const RenderDeviceSpecification& spec);
 		~VulkanRenderDevice();
+
+		void DrawFrame() override;
+		void WaitForDeviceToFinishExecuting() override;
+		void FramebufferResize() override { m_FramebufferResized = true; }
 
 		static VkInstance GetInstance() { return s_Instance; }
 
@@ -30,8 +37,11 @@ namespace Quest
 		inline static VkInstance s_Instance;
 		Ref<VulkanPhysicalDevice> m_PhysicalDevice;
 		Ref<VulkanDevice> m_Device;
+		Ref<VulkanSwapChain> m_SwapChain;
 
 		VkDebugUtilsMessengerEXT m_DebugMessenger;
+
+		bool m_FramebufferResized = false;
 
 
 #ifdef NDEBUG

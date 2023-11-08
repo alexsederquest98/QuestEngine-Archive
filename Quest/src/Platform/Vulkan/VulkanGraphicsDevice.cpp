@@ -135,7 +135,7 @@ namespace Quest
 	};
 
 
-	VulkanGraphicsDevice::VulkanGraphicsDevice(const GraphicsDeviceSpecification& spec)
+	VulkanGraphicsDevice::VulkanGraphicsDevice(const RenderDeviceSpecification& spec)
 	{
 		m_Window = spec.window;
 		

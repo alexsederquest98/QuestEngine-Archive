@@ -68,6 +68,7 @@ namespace Quest
 		vkGetPhysicalDeviceProperties(device, &deviceProperties);
 
 		QueueFamilyIndices indices = FindQueueFamilies(device);
+		m_QueueFamilies = indices;
 
 		bool extensionsSupported = CheckDeviceExtensionSupport(device);
 

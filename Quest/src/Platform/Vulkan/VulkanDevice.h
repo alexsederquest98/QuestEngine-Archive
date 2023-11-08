@@ -31,6 +31,7 @@ namespace Quest
 		const VkPhysicalDeviceProperties& GetProperties() const { return m_Properties; }
 		const VkPhysicalDeviceFeatures& GetFeatures() const { return m_Features; }
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties() const { return m_MemoryProperties; }
+		const QueueFamilyIndices GetQueueFamilies() const { return m_QueueFamilies; }
 
 		static Ref<VulkanPhysicalDevice> ChoosePhysicalDevice();
 	private:
@@ -43,6 +44,8 @@ namespace Quest
 		VkPhysicalDeviceProperties m_Properties;
 		VkPhysicalDeviceFeatures m_Features;
 		VkPhysicalDeviceMemoryProperties m_MemoryProperties;
+
+		QueueFamilyIndices m_QueueFamilies;
 
 		friend class VulkanDevice;
 	};
