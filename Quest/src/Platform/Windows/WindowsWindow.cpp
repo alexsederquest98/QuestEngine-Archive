@@ -2,6 +2,7 @@
 #include "WindowsWindow.h"
 
 #include "Core/Application.h"
+#include "Renderer/IRenderDevice.h"
 
 #include "Events/WindowEvent.h"
 #include "Events/KeyEvent.h"
@@ -23,6 +24,11 @@ namespace Quest
 	WindowsWindow::~WindowsWindow()
 	{
 		Shutdown();
+	}
+
+	void WindowsWindow::AttachContext(Ref<IDeviceContext> context)
+	{
+		m_Context = context;
 	}
 
 	void WindowsWindow::PauseWindow()
@@ -50,7 +56,18 @@ namespace Quest
 		QE_CORE_ASSERT_MSG(success, "Failed to initialize GLFW :(");
 
 		glfwSetErrorCallback(GLFWErrorCallback);
-		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // for Vulkan
+		if (IRenderDevice::GetAPI() == IRenderDevice::API::Vulkan)
+		{
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API); // for Vulkan
+		}
+		if (IRenderDevice::GetAPI() == IRenderDevice::API::OpenGL)
+		{
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
+		}
+		
 		//glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // temporary for now
 
 		m_Window = glfwCreateWindow((int)m_WindowData.m_Width, (int)m_WindowData.m_Height, m_WindowData.m_Title.c_str(), nullptr, nullptr);

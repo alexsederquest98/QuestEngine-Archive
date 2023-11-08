@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Core/Window.h"
+
 #include <string_view>
 #include <GLFW/glfw3.h>
 
@@ -11,6 +12,8 @@ namespace Quest
 	public:
 		WindowsWindow(const WindowSpecification& spec);
 		virtual ~WindowsWindow();
+
+		void AttachContext(Ref<IDeviceContext> context) override;
 
 		void OnUpdate() override;
 
@@ -33,6 +36,7 @@ namespace Quest
 		void Shutdown();
 	private:
 		GLFWwindow* m_Window;
+		Ref<IDeviceContext> m_Context;
 
 		struct WindowData
 		{

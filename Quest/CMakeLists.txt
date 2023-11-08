@@ -25,6 +25,9 @@ endif()
 
 # Vendor subdirectories (that need compiled)
 message("Building glfw...")
+option(GLFW_BUILD_DOCS OFF)
+option(GLFW_BUILD_EXAMPLES OFF)
+option(GLFW_BUILD_TESTS OFF)
 add_subdirectory(${QUEST_ROOT}/Quest/vendor/glfw)
 message("Done building glfw")
 message("Building fmt...")
@@ -52,12 +55,17 @@ set (HEADERS
 
 # vendor includes
 set(VENDOR_INCLUDES 
+    vendor/glad/include/
     vendor/glfw/include/
     vendor/fmt/include/
     vendor/imgui/
     vendor/glm/
     vendor/stb/
     vendor/tinyobjloader/
+)
+
+set(VENDOR_SOURCES
+    vendor/glad/src/glad.c
 )
 
 set(VULKAN_LIBRARIES
@@ -73,9 +81,9 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 #set (HEADERS "src/TestLib.h")
 
 
-add_library(${TARGET_NAME} ${QUEST_LIBRARY_TYPE} ${SOURCES})
+add_library(${TARGET_NAME} ${QUEST_LIBRARY_TYPE} ${SOURCES} ${VENDOR_SOURCES})
 
-target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.h)
+#target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.h)
 
 target_compile_definitions(${TARGET_NAME} PRIVATE GLM_FORCE_DEPTH_ZERO_TO_ONE=1 _CRT_SECURE_NO_WARNINGS=1)
 

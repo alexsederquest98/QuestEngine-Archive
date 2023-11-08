@@ -7,6 +7,7 @@
 #include "Timestep.h"
 #include "Events/EventManager.h"
 #include "Renderer/IRenderDevice.h"
+#include "Renderer/IDeviceContext.h"
 
 // This forward dec of main is so that I can set it as a friend to the Application class.
 // Since main is a friend, I can call the private Run() function from main and only main.
@@ -51,7 +52,8 @@ namespace Quest
 		Ref<Window> m_Window;
 		bool m_Running = true;
 
-		Scope<IRenderDevice> m_GraphicsDevice;
+		Ref<IDeviceContext> m_DeviceContext = nullptr;
+		Ref<IRenderDevice> m_GraphicsDevice = nullptr;
 
 		static Ref<EventManager> s_EventManager;
 

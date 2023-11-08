@@ -7,6 +7,11 @@ namespace Quest
 	class IRenderDevice
 	{
 	public:
+		enum class API
+		{
+			None = 0, OpenGL = 1, Vulkan = 2
+		};
+
 		struct RenderDeviceSpecification
 		{
 			Ref<Window> window;
@@ -21,8 +26,11 @@ namespace Quest
 
 		virtual void FramebufferResize() = 0;
 
-		static Scope<IRenderDevice> Create(const RenderDeviceSpecification& spec);
+		static Ref<IRenderDevice> Create(const RenderDeviceSpecification& spec);
+		static API GetAPI() { return s_API; }
 	protected:
 		Ref<Window> m_Window;
+	private:
+		static API s_API;
 	};
 }

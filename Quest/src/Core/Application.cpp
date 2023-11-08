@@ -21,10 +21,18 @@ namespace Quest
 		s_Instantiated = true;
 		s_Instance = this;
 
-		m_Window = Window::Create(WindowSpecification(spec.AppName));
+		WindowSpecification winSpec = {
+			.Title = spec.AppName,
+			.Width = 1920,
+			.Height = 1080,
+		};
+		m_Window = Window::Create(winSpec);
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));
 
 		m_GraphicsDevice = IRenderDevice::Create({.window = m_Window });
+
+		m_DeviceContext = IDeviceContext::Create(m_Window->GetNativeWindow());
+		m_Window->AttachContext(m_DeviceContext);
 
 		s_EventManager->Subscribe(EventType::MouseMoved, QE_BIND_EVENT_FUNC(OnMouseMoved));
 		s_EventManager->Subscribe(EventType::WindowClose, QE_BIND_EVENT_FUNC(OnWindowClose));

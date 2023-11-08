@@ -2,6 +2,8 @@
 #include "Base.h"
 #include "Events/Event.h"
 
+#include "Renderer/IDeviceContext.h"
+
 #include <string>
 
 namespace Quest
@@ -12,13 +14,6 @@ namespace Quest
 		std::string Title;
 		uint32 Width;
 		uint32 Height;
-
-		WindowSpecification(const std::string title = "Quest Engine",
-			uint32 width = 1920,
-			uint32 height = 1080)
-			: Title(title), Width(width), Height(height)
-		{
-		}
 	};
 
 	// Interface for a window class
@@ -27,6 +22,7 @@ namespace Quest
 	public:
 		virtual ~Window() = default;
 
+		virtual void AttachContext(Ref<IDeviceContext> context) = 0;
 		virtual void OnUpdate() = 0;
 		virtual std::string GetTitle() const = 0;
 		virtual uint32 GetWidth() const = 0;
@@ -39,6 +35,6 @@ namespace Quest
 		virtual float GetTime() const = 0; // This is not a great solution, but it's a simple way to get the glfw time for now
 		virtual void PauseWindow() = 0;
 
-		static Ref<Window> Create(const WindowSpecification& spec = WindowSpecification());
+		static Ref<Window> Create(const WindowSpecification& spec);
 	};
 }
