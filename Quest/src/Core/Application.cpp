@@ -5,6 +5,8 @@
 
 #include "InputManager.h"
 
+#include "ServiceLocator.h"
+
 #include <thread>
 #include <chrono>
 
@@ -28,6 +30,7 @@ namespace Quest
 		};
 		m_Window = Window::Create(winSpec);
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));
+		ServiceLocator::RegisterWindow(m_Window.get());
 
 		m_GraphicsDevice = IRenderDevice::Create({.window = m_Window });
 		m_DeviceContext = IDeviceContext::Create(m_Window->GetNativeWindow());
@@ -39,6 +42,9 @@ namespace Quest
 		s_EventManager->Subscribe(EventType::KeyPressed, QE_BIND_EVENT_FUNC(OnKeyPress));
 		s_EventManager->Subscribe(EventType::WindowResize, QE_BIND_EVENT_FUNC(OnWindowResize));
 
+		ServiceLocator::RegisterApplication(s_Instance);
+		ServiceLocator::RegisterDeviceContext(m_DeviceContext.get());
+		ServiceLocator::RegisterRenderDevice(m_GraphicsDevice.get());
 		QE_CORE_CRITICAL("Application Initialized");
 	}
 

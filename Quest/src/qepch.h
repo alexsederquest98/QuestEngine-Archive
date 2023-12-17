@@ -7,6 +7,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <Core/QuestTypes.h>
+//#include <Core/QuestTypes.h>
 #include <Core/Base.h>
 #include <Core/Log.h>

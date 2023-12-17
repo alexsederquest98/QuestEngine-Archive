@@ -46,6 +46,8 @@ namespace Quest
 		void OnWindowResize(Event& e);
 
 		void Close();
+
+		std::string Test() { return "Application"; }
 	private:
 		void Run();
 	private:
