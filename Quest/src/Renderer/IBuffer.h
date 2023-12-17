@@ -8,9 +8,10 @@ namespace Quest
 	public:
 		virtual ~IBuffer() = default;
 
-		virtual void SetData(void* buffer, uint64_t size, uint64_t offset = 0) = 0;
 		virtual void Bind() const = 0;
+		virtual void UnBind() const = 0;
 
+		virtual void SetData(void* buffer, uint64_t size) = 0;
 		virtual uint64_t GetSize() = 0;
 
 		// Create functions

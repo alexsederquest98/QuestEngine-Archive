@@ -40,7 +40,7 @@ namespace Quest
 
 		void DrawFrame() override;
 		void WaitForDeviceToFinishExecuting() override;
-		void FramebufferResize() override { m_FramebufferResized = true; }
+		void FramebufferResize(uint32_t width, uint32_t height) override { m_FramebufferResized = true; }
 	private:
 		void Init(); // Vulkan init function, initialize all the objects required for Vulkan to function
 		void Shutdown(); // clean up function

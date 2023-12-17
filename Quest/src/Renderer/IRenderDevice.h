@@ -24,7 +24,7 @@ namespace Quest
 
 		virtual void WaitForDeviceToFinishExecuting() = 0;
 
-		virtual void FramebufferResize() = 0;
+		virtual void FramebufferResize(uint32_t width, uint32_t height) = 0;
 
 		static Ref<IRenderDevice> Create(const RenderDeviceSpecification& spec);
 		static API GetAPI() { return s_API; }

@@ -14,17 +14,44 @@ namespace Quest
 	// PHYSICAL DEVICE
 	VulkanPhysicalDevice::VulkanPhysicalDevice()
 	{
-		// Get the instance from the RenderDevice
-		auto vk_instance = VulkanRenderDevice::GetInstance();
-		// Pick the physical device that best fits
-		m_PhysicalDevice = PickPhysicalDevice(vk_instance);
+		auto instance = VulkanRenderDevice::GetInstance();
+
+		uint32 deviceCount = 0;
+		vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+
+		if (deviceCount == 0)
+		{
+			QE_CORE_FATAL("Failed to find GPUs with Vulkan support");
+		}
+
+		std::vector<VkPhysicalDevice> devices(deviceCount);
+		vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+
+		for (const auto& device : devices)
+		{
+			if (IsDeviceSuitable(device))
+			{
+				m_PhysicalDevice = device;
+				break;
+			}
+		}
+
+		if (m_PhysicalDevice == VK_NULL_HANDLE)
+		{
+			QE_CORE_FATAL("No suitable GPU found");
+		}
+
+		// Set the info about the physical device chosen
+		vkGetPhysicalDeviceProperties(m_PhysicalDevice, &m_Properties);
+		vkGetPhysicalDeviceFeatures(m_PhysicalDevice, &m_Features);
+		vkGetPhysicalDeviceMemoryProperties(m_PhysicalDevice, &m_MemoryProperties);
 	}
 
 	VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	{
 	}
 
-	Ref<VulkanPhysicalDevice> VulkanPhysicalDevice::ChoosePhysicalDevice()
+	Ref<VulkanPhysicalDevice> VulkanPhysicalDevice::CreatePhysicalDevice()
 	{
 		return CreateRef<VulkanPhysicalDevice>();
 	}
@@ -191,6 +218,11 @@ namespace Quest
 	}
 
 	VulkanDevice::~VulkanDevice()
+	{
+		
+	}
+
+	void VulkanDevice::Shutdown()
 	{
 		// maybe move to another function instead of destructor?
 		vkDeviceWaitIdle(m_Device);

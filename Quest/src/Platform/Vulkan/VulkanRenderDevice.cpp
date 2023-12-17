@@ -88,7 +88,8 @@ namespace Quest
 		SetupDebugMessenger();
 
 		// Select the physical device
-		m_PhysicalDevice = VulkanPhysicalDevice::ChoosePhysicalDevice();
+		m_PhysicalDevice = VulkanPhysicalDevice::CreatePhysicalDevice();
+		//m_PhysicalDevice->PickPhysicalDevice(s_Instance);
 		// Create the logical device
 		m_Device = VulkanDevice::CreateLogicalDevice(m_PhysicalDevice, validationLayers, enableValidationLayers);
 
@@ -96,10 +97,23 @@ namespace Quest
 		m_SwapChain = CreateRef<VulkanSwapChain>();
 		m_SwapChain->Init(s_Instance, m_Device, m_Window);
 		m_SwapChain->InitSurface();
+		m_SwapChain->Create(m_Window->GetHeight(), m_Window->GetWidth(), false);
 	}
 
 	VulkanRenderDevice::~VulkanRenderDevice()
 	{
+		Shutdown();
+	}
+
+	void VulkanRenderDevice::Shutdown()
+	{
+		m_SwapChain->Shutdown();
+
+		m_Device->Shutdown();
+
+		if (enableValidationLayers)
+			DestroyDebugUtilsMessengerEXT(s_Instance, m_DebugMessenger, nullptr);
+
 		vkDestroyInstance(s_Instance, nullptr);
 		s_Instance = nullptr;
 	}

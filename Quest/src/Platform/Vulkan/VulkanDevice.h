@@ -33,14 +33,14 @@ namespace Quest
 		const VkPhysicalDeviceMemoryProperties& GetMemoryProperties() const { return m_MemoryProperties; }
 		const QueueFamilyIndices GetQueueFamilies() const { return m_QueueFamilies; }
 
-		static Ref<VulkanPhysicalDevice> ChoosePhysicalDevice();
-	private:
+		static Ref<VulkanPhysicalDevice> CreatePhysicalDevice();
 		VkPhysicalDevice PickPhysicalDevice(VkInstance instance);
+	private:
 		bool IsDeviceSuitable(VkPhysicalDevice device);
 		bool CheckDeviceExtensionSupport(VkPhysicalDevice device);
 		QueueFamilyIndices FindQueueFamilies(VkPhysicalDevice device);
 	private:
-		VkPhysicalDevice m_PhysicalDevice;
+		VkPhysicalDevice m_PhysicalDevice = nullptr;
 		VkPhysicalDeviceProperties m_Properties;
 		VkPhysicalDeviceFeatures m_Features;
 		VkPhysicalDeviceMemoryProperties m_MemoryProperties;
@@ -57,6 +57,8 @@ namespace Quest
 		VulkanDevice(const Ref<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers);
 		~VulkanDevice();
 
+		void Shutdown();
+
 		VkQueue GetGraphicsQueue() { return m_GraphicsQueue; }
 		const Ref<VulkanPhysicalDevice>& GetPhysicalDevice() const { return m_PhysicalDevice; }
 		VkDevice GetDevice() const { return m_Device; }
@@ -64,7 +66,7 @@ namespace Quest
 		static Ref<VulkanDevice> CreateLogicalDevice(const Ref<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers);
 	private:
 	private:
-		VkDevice m_Device;
+		VkDevice m_Device = nullptr;
 		Ref<VulkanPhysicalDevice> m_PhysicalDevice;
 
 		VkQueue m_GraphicsQueue;

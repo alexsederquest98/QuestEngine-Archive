@@ -30,8 +30,8 @@ namespace Quest
 		m_Window->SetEventCallback(QE_BIND_EVENT_FUNC(OnEvent));
 
 		m_GraphicsDevice = IRenderDevice::Create({.window = m_Window });
-
 		m_DeviceContext = IDeviceContext::Create(m_Window->GetNativeWindow());
+		m_DeviceContext->Init();
 		m_Window->AttachContext(m_DeviceContext);
 
 		s_EventManager->Subscribe(EventType::MouseMoved, QE_BIND_EVENT_FUNC(OnMouseMoved));
@@ -105,7 +105,7 @@ namespace Quest
 		if (event.GetWidth() == 0 || event.GetHeight() == 0)
 			m_Window->PauseWindow();
 
-		m_GraphicsDevice->FramebufferResize();
+		m_GraphicsDevice->FramebufferResize(event.GetWidth(), event.GetHeight());
 	}
 
 	void Application::Close()

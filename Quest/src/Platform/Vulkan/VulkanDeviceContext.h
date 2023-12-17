@@ -1,14 +1,15 @@
 #pragma once
+
 #include "Renderer/IDeviceContext.h"
 
 struct GLFWwindow;
 
 namespace Quest
 {
-	class OpenGLDeviceContext : public IDeviceContext
+	class VulkanDeviceContext : public IDeviceContext
 	{
 	public:
-		OpenGLDeviceContext(GLFWwindow* window);
+		VulkanDeviceContext(GLFWwindow* window);
 
 		virtual void Init() override;
 		virtual void Shutdown() override;

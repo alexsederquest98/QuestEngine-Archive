@@ -1,4 +1,12 @@
 Heirarchy:
 
-DeviceContext (interface for rendering commands) - drawindexed
-RenderDevice (interface for object creation - textures/buffers/shaders/etc) ~ creates objects on the device
+These interfaces will be implememented on a per-platform basis (OpenGL/Vulkan/DirectX)
+IRenderDevice (interface for object creation - textures/buffers/shaders/etc) ~ creates objects on the device
+IDeviceContext (interface for rendering commands) - drawindexed
+ISwapChain ~ buffers to be rendered to the screen
+ITexture (interface for textures, 2D/3D, cubemaps, texture arrays)
+IBuffer (interface for buffers, index/vertex/uniform)
+ITextureView ~ how the data should be used
+IBufferView ~ ditto above
+IPipelineState (interface for configurable stages) ~ depth, z, stencil, blend, rasterizer states are controlled here
+IShaderResourceBinding - binds all resources needed by all shaders in a pipeline state

@@ -20,6 +20,29 @@ namespace Quest
 		m_Instance = instance;
 		m_Device = device;
 		m_Window = window;
+		m_SwapChain = nullptr;
+	}
+
+	void VulkanSwapChain::Shutdown()
+	{
+		vkDestroyImageView(m_Device->GetDevice(), m_DepthImageView, nullptr);
+		vkDestroyImage(m_Device->GetDevice(), m_DepthImage, nullptr);
+		vkFreeMemory(m_Device->GetDevice(), m_DepthImageMemory, nullptr);
+
+		for (size_t i = 0; i < m_SwapChainFramebuffers.size(); i++)
+		{
+			vkDestroyFramebuffer(m_Device->GetDevice(), m_SwapChainFramebuffers[i], nullptr);
+		}
+
+		for (size_t i = 0; i < m_SwapChainImageViews.size(); i++)
+		{
+			vkDestroyImageView(m_Device->GetDevice(), m_SwapChainImageViews[i], nullptr);
+		}
+
+		vkDestroySwapchainKHR(m_Device->GetDevice(), m_SwapChain, nullptr);
+
+		// Surface
+		vkDestroySurfaceKHR(m_Instance, m_Surface, nullptr);
 	}
 
 	void VulkanSwapChain::InitSurface()

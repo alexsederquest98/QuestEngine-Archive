@@ -72,9 +72,13 @@ namespace Quest
 
 		m_Window = glfwCreateWindow((int)m_WindowData.m_Width, (int)m_WindowData.m_Height, m_WindowData.m_Title.c_str(), nullptr, nullptr);
 
+		if (IRenderDevice::GetAPI() == IRenderDevice::API::OpenGL)
+			glfwMakeContextCurrent(m_Window);
+
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
 
+		// GLFW callbacks
 		glfwSetFramebufferSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 			{
 				WindowResizeEvent event(width, height);
@@ -83,7 +87,6 @@ namespace Quest
 			}
 		);
 
-		// GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -201,6 +204,8 @@ namespace Quest
 	{
 		glfwPollEvents();
 		// swap buffers
+		if (IRenderDevice::GetAPI() == IRenderDevice::API::OpenGL)
+			glfwSwapBuffers(m_Window);
 	}
 
 	void WindowsWindow::SetEventCallback(const EventCallbackFunc& callback)
@@ -213,6 +218,7 @@ namespace Quest
 		m_WindowData.m_VSync = enabled;
 
 		// swapchain stuff for vsync
+		//glfwSwapInterval(0);
 	}
 
 	void WindowsWindow::SetTitle(std::string_view title)

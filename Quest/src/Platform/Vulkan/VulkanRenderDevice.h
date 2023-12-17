@@ -18,9 +18,11 @@ namespace Quest
 		VulkanRenderDevice(const RenderDeviceSpecification& spec);
 		~VulkanRenderDevice();
 
+		void Shutdown();
+
 		void DrawFrame() override;
 		void WaitForDeviceToFinishExecuting() override;
-		void FramebufferResize() override { m_FramebufferResized = true; }
+		void FramebufferResize(uint32_t width, uint32_t height) override { m_FramebufferResized = true; }
 
 		static VkInstance GetInstance() { return s_Instance; }
 

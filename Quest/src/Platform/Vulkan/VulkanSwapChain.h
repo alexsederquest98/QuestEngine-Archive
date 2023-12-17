@@ -25,6 +25,7 @@ namespace Quest
 		~VulkanSwapChain();
 
 		void Init(VkInstance instance, const Ref<VulkanDevice>& device, const Ref<Window>& window);
+		void Shutdown();
 		void InitSurface();
 		void Create(uint32_t width, uint32_t height, bool vsync);
 		void Destroy();
