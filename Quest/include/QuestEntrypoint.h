@@ -3,7 +3,7 @@
 #include "../src/Core/Base.h"
 #include "../src/Core/Application.h"
 
-extern Quest::Scope<Quest::Application> Quest::CreateApplication(Quest::Application::ApplicationSpecification spec);
+extern Quest::ScopePtr<Quest::Application> Quest::CreateApplication(Quest::Application::ApplicationSpecification spec);
 
 int main(int argc, char** argv)
 {
@@ -11,7 +11,7 @@ int main(int argc, char** argv)
 	QE_CORE_CRITICAL("Initializing Quest Engine...");
 	
 
-	Quest::Scope<Quest::Application> app = Quest::CreateApplication({
+	Quest::ScopePtr<Quest::Application> app = Quest::CreateApplication({
 		.AppName = "Quest Application",
 		.ArgCount = argc,
 		.Arguments = argv,

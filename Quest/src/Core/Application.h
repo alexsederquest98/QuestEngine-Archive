@@ -9,7 +9,7 @@
 #include "Renderer/IRenderDevice.h"
 #include "Renderer/IDeviceContext.h"
 
-#include "VulkanRenderer.h"
+//#include "VulkanRenderer.h"
 
 // This forward dec of main is so that I can set it as a friend to the Application class.
 // Since main is a friend, I can call the private Run() function from main and only main.
@@ -70,5 +70,5 @@ namespace Quest
 	};
 
 	// Defined in the client
-	Scope<Application> CreateApplication(Application::ApplicationSpecification spec);
+	ScopePtr<Application> CreateApplication(Application::ApplicationSpecification spec);
 }
