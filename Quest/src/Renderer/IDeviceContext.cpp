@@ -7,7 +7,7 @@
 
 namespace Quest
 {
-	Ref<IDeviceContext> IDeviceContext::Create(void* window)
+	RefPtr<IDeviceContext> IDeviceContext::Create(void* window)
 	{
 		switch (IRenderDevice::GetAPI())
 		{

@@ -9,7 +9,7 @@ namespace Quest
 	class VulkanCommandPool
 	{
 	public:
-		VulkanCommandPool(Ref<VulkanDevice> device);
+		VulkanCommandPool(RefPtr<VulkanDevice> device);
 		~VulkanCommandPool();
 
 		VkCommandBuffer AllocateCommandBuffer();
@@ -21,7 +21,7 @@ namespace Quest
 		VkCommandPool GetGraphicsCommandPool() const { return m_GraphicsCommandPool; }
 	private:
 		// Reference to the device, passed by dependency injection
-		Ref<VulkanDevice> m_Device;
+		RefPtr<VulkanDevice> m_Device;
 		VkCommandPool m_GraphicsCommandPool;
 	};
 }

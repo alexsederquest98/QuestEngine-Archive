@@ -22,7 +22,7 @@ namespace Quest
 	public:
 		virtual ~Window() = default;
 
-		virtual void AttachContext(Ref<IDeviceContext> context) = 0;
+		virtual void AttachContext(RefPtr<IDeviceContext> context) = 0;
 		virtual void OnUpdate() = 0;
 		virtual std::string GetTitle() const = 0;
 		virtual uint32 GetWidth() const = 0;
@@ -35,6 +35,6 @@ namespace Quest
 		virtual float GetTime() const = 0; // This is not a great solution, but it's a simple way to get the glfw time for now
 		virtual void PauseWindow() = 0;
 
-		static Ref<Window> Create(const WindowSpecification& spec);
+		static RefPtr<Window> Create(const WindowSpecification& spec);
 	};
 }

@@ -51,7 +51,7 @@ namespace Quest
 	{
 	}
 
-	Ref<VulkanPhysicalDevice> VulkanPhysicalDevice::CreatePhysicalDevice()
+	RefPtr<VulkanPhysicalDevice> VulkanPhysicalDevice::CreatePhysicalDevice()
 	{
 		return CreateRef<VulkanPhysicalDevice>();
 	}
@@ -166,7 +166,7 @@ namespace Quest
 	}
 
 	// LOGICAL DEVICE
-	VulkanDevice::VulkanDevice(const Ref<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers)
+	VulkanDevice::VulkanDevice(const RefPtr<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers)
 		: m_PhysicalDevice(physicalDevice)
 	{
 		QueueFamilyIndices indices = m_PhysicalDevice->FindQueueFamilies(m_PhysicalDevice->GetPhysicalDevice());
@@ -229,7 +229,7 @@ namespace Quest
 		vkDestroyDevice(m_Device, nullptr);
 	}
 
-	Ref<VulkanDevice> VulkanDevice::CreateLogicalDevice(const Ref<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers)
+	RefPtr<VulkanDevice> VulkanDevice::CreateLogicalDevice(const RefPtr<VulkanPhysicalDevice>& physicalDevice, const std::vector<const char*> validationLayers, const bool enableValidationLayers)
 	{
 		return CreateRef<VulkanDevice>(physicalDevice, validationLayers, enableValidationLayers);
 	}

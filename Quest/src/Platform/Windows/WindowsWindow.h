@@ -13,7 +13,7 @@ namespace Quest
 		WindowsWindow(const WindowSpecification& spec);
 		virtual ~WindowsWindow();
 
-		void AttachContext(Ref<IDeviceContext> context) override;
+		void AttachContext(RefPtr<IDeviceContext> context) override;
 
 		void OnUpdate() override;
 
@@ -36,7 +36,7 @@ namespace Quest
 		void Shutdown();
 	private:
 		GLFWwindow* m_Window;
-		Ref<IDeviceContext> m_Context;
+		RefPtr<IDeviceContext> m_Context;
 
 		struct WindowData
 		{

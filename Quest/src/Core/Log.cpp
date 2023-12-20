@@ -4,8 +4,8 @@
 
 namespace Quest
 {
-	Ref<qlog::Logger> Log::s_CoreLogger = CreateRef<qlog::Logger>();
-	Ref<qlog::Logger> Log::s_ClientLogger = CreateRef<qlog::Logger>();
+	RefPtr<qlog::Logger> Log::s_CoreLogger = CreateRef<qlog::Logger>();
+	RefPtr<qlog::Logger> Log::s_ClientLogger = CreateRef<qlog::Logger>();
 
 
 	void Log::Init()

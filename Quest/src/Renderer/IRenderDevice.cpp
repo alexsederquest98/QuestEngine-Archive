@@ -10,7 +10,7 @@ namespace Quest
 {
 	IRenderDevice::API IRenderDevice::s_API = IRenderDevice::API::Vulkan;
 
-	Ref<IRenderDevice> IRenderDevice::Create(const RenderDeviceSpecification& spec)
+	RefPtr<IRenderDevice> IRenderDevice::Create(const RenderDeviceSpecification& spec)
 	{
 		switch (s_API)
 		{

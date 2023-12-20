@@ -15,7 +15,7 @@ namespace Quest
 	{
 	}
 
-	void VulkanSwapChain::Init(VkInstance instance, const Ref<VulkanDevice>& device, const Ref<Window>& window)
+	void VulkanSwapChain::Init(VkInstance instance, const RefPtr<VulkanDevice>& device, const RefPtr<Window>& window)
 	{
 		m_Instance = instance;
 		m_Device = device;

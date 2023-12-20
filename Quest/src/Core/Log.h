@@ -10,11 +10,11 @@ namespace Quest
 	public:
 		static void Init();
 
-		inline static Ref<qlog::Logger>& GetCoreLogger() { return s_CoreLogger; }
-		inline static Ref<qlog::Logger>& GetClientLogger() { return s_ClientLogger; }
+		inline static RefPtr<qlog::Logger>& GetCoreLogger() { return s_CoreLogger; }
+		inline static RefPtr<qlog::Logger>& GetClientLogger() { return s_ClientLogger; }
 	private:
-		static Ref<qlog::Logger> s_CoreLogger;
-		static Ref<qlog::Logger> s_ClientLogger;
+		static RefPtr<qlog::Logger> s_CoreLogger;
+		static RefPtr<qlog::Logger> s_ClientLogger;
 	};
 }
 

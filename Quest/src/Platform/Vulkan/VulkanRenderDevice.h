@@ -26,7 +26,7 @@ namespace Quest
 
 		static VkInstance GetInstance() { return s_Instance; }
 
-		Ref<VulkanDevice> GetDevice() { return m_Device; }
+		RefPtr<VulkanDevice> GetDevice() { return m_Device; }
 
 		const bool GetEnabledValidation();
 		const std::vector<const char*> GetValidationLayers();
@@ -37,9 +37,9 @@ namespace Quest
 		void SetupDebugMessenger();
 	private:
 		inline static VkInstance s_Instance;
-		Ref<VulkanPhysicalDevice> m_PhysicalDevice;
-		Ref<VulkanDevice> m_Device;
-		Ref<VulkanSwapChain> m_SwapChain;
+		RefPtr<VulkanPhysicalDevice> m_PhysicalDevice;
+		RefPtr<VulkanDevice> m_Device;
+		RefPtr<VulkanSwapChain> m_SwapChain;
 
 		VkDebugUtilsMessengerEXT m_DebugMessenger;
 

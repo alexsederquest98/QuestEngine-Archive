@@ -24,7 +24,7 @@ namespace Quest
 		VulkanSwapChain();
 		~VulkanSwapChain();
 
-		void Init(VkInstance instance, const Ref<VulkanDevice>& device, const Ref<Window>& window);
+		void Init(VkInstance instance, const RefPtr<VulkanDevice>& device, const RefPtr<Window>& window);
 		void Shutdown();
 		void InitSurface();
 		void Create(uint32_t width, uint32_t height, bool vsync);
@@ -51,8 +51,8 @@ namespace Quest
 		void TransitionImageLayout(VkImage image, VkFormat format, VkImageLayout oldLayout, VkImageLayout newLayout);
 	private:
 		VkInstance m_Instance = nullptr;
-		Ref<VulkanDevice> m_Device;
-		Ref<Window> m_Window;
+		RefPtr<VulkanDevice> m_Device;
+		RefPtr<Window> m_Window;
 		bool m_VSync = false;
 
 		VkSwapchainKHR m_SwapChain = nullptr;

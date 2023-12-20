@@ -14,7 +14,7 @@ namespace Quest
 
 		struct RenderDeviceSpecification
 		{
-			Ref<Window> window;
+			RefPtr<Window> window;
 		};
 
 		virtual ~IRenderDevice() = default;
@@ -26,10 +26,10 @@ namespace Quest
 
 		virtual void FramebufferResize(uint32_t width, uint32_t height) = 0;
 
-		static Ref<IRenderDevice> Create(const RenderDeviceSpecification& spec);
+		static RefPtr<IRenderDevice> Create(const RenderDeviceSpecification& spec);
 		static API GetAPI() { return s_API; }
 	protected:
-		Ref<Window> m_Window;
+		RefPtr<Window> m_Window;
 	private:
 		static API s_API;
 	};

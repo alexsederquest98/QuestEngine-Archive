@@ -9,6 +9,8 @@
 #include "Renderer/IRenderDevice.h"
 #include "Renderer/IDeviceContext.h"
 
+#include "VulkanRenderer.h"
+
 // This forward dec of main is so that I can set it as a friend to the Application class.
 // Since main is a friend, I can call the private Run() function from main and only main.
 int main(int argc, char** argv);
@@ -37,7 +39,7 @@ namespace Quest
 
 		Window& GetWindow() { return *m_Window; }
 		static Application& Get() { return *s_Instance; }
-		static Ref<EventManager> GetEventManager() { return s_EventManager; }
+		static RefPtr<EventManager> GetEventManager() { return s_EventManager; }
 
 		void OnEvent(Event& e);
 		void OnWindowClose(Event& e);
@@ -51,13 +53,13 @@ namespace Quest
 	private:
 		void Run();
 	private:
-		Ref<Window> m_Window;
+		RefPtr<Window> m_Window;
 		bool m_Running = true;
 
-		Ref<IDeviceContext> m_DeviceContext = nullptr;
-		Ref<IRenderDevice> m_GraphicsDevice = nullptr;
+		RefPtr<IDeviceContext> m_DeviceContext = nullptr;
+		RefPtr<IRenderDevice> m_GraphicsDevice = nullptr;
 
-		static Ref<EventManager> s_EventManager;
+		static RefPtr<EventManager> s_EventManager;
 
 		Timestep m_LastFrameTime = 0.0f;
 

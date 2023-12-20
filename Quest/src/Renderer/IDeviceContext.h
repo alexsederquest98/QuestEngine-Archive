@@ -12,6 +12,6 @@ namespace Quest
 		virtual void Shutdown() = 0;
 		virtual void SwapBuffers() = 0;
 
-		static Ref<IDeviceContext> Create(void* window);
+		static RefPtr<IDeviceContext> Create(void* window);
 	};
 }

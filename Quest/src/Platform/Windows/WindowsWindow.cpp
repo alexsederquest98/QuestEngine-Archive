@@ -26,7 +26,7 @@ namespace Quest
 		Shutdown();
 	}
 
-	void WindowsWindow::AttachContext(Ref<IDeviceContext> context)
+	void WindowsWindow::AttachContext(RefPtr<IDeviceContext> context)
 	{
 		m_Context = context;
 	}

@@ -12,7 +12,7 @@
 
 namespace Quest
 {
-	Ref<EventManager> Application::s_EventManager = CreateRef<EventManager>();
+	RefPtr<EventManager> Application::s_EventManager = CreateRef<EventManager>();
 
 	bool Application::s_Instantiated = false;
 	Application* Application::s_Instance = nullptr;
@@ -46,6 +46,7 @@ namespace Quest
 		ServiceLocator::RegisterDeviceContext(m_DeviceContext.get());
 		ServiceLocator::RegisterRenderDevice(m_GraphicsDevice.get());
 		QE_CORE_CRITICAL("Application Initialized");
+		QE_CORE_WARN("{}", VulkanRendererTest());
 	}
 
 	Application::~Application()

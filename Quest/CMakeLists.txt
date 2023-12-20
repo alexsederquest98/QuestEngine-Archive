@@ -43,6 +43,7 @@ message("Done building fmt")
 set (QUEST_STATIC_LIBS
     glfw
     fmt
+    #VulkanRenderer
 )
 
 message(STATUS "Building Quest Engine static library...")
@@ -62,6 +63,8 @@ set(VENDOR_INCLUDES
     vendor/glm/
     vendor/stb/
     vendor/tinyobjloader/
+
+    #${QUEST_ROOT}/VulkanRenderer/include/
 )
 
 set(VENDOR_SOURCES

@@ -3,7 +3,7 @@
 
 namespace Quest
 {
-	VulkanCommandPool::VulkanCommandPool(Ref<VulkanDevice> device)
+	VulkanCommandPool::VulkanCommandPool(RefPtr<VulkanDevice> device)
 		: m_Device(device)
 	{
 		// Create the graphics command queue
