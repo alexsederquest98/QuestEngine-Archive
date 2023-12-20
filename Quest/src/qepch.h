@@ -1,4 +1,5 @@
-#pragma once
+#ifndef QE_PCH_GUARD
+#define QE_PCH_GUARD
 
 #include <cstdint>
 #include <memory>
@@ -10,3 +11,5 @@
 //#include <Core/QuestTypes.h>
 #include <Core/Base.h>
 #include <Core/Log.h>
+
+#endif

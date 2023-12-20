@@ -2,6 +2,7 @@ set_property(TARGET PROPERTY USE_FOLDERS ON)
 
 set (TARGET_NAME Quest)
 set(QUEST_LIBRARY_TYPE STATIC)
+set (CMAKE_CXX_STANDARD 20)
 
 # vulkan
 find_package(Vulkan REQUIRED COMPONENTS glslc glslang SPIRV-Tools shaderc_combined)
@@ -49,6 +50,7 @@ set (QUEST_STATIC_LIBS
 message(STATUS "Building Quest Engine static library...")
 
 file (GLOB_RECURSE SOURCES src/*.cpp src/*.h include/Quest.h include/QuestEntrypoint.h assets/shaders/*.vert assets/shaders/*.frag)
+#list(REMOVE_ITEM SOURCES src/qepch.h src/qepch.cpp)
 #file (GLOB_RECURSE HEADERS include/Quest.h src/*.h)
 set (HEADERS
     src/    
@@ -86,7 +88,10 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_library(${TARGET_NAME} ${QUEST_LIBRARY_TYPE} ${SOURCES} ${VENDOR_SOURCES})
 
-#target_precompile_headers(${TARGET_NAME} PRIVATE src/qepch.h)
+target_precompile_headers(${TARGET_NAME} 
+    PRIVATE 
+    "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_CURRENT_SOURCE_DIR}/src/qepch.h>"
+)
 
 target_compile_definitions(${TARGET_NAME} PRIVATE GLM_FORCE_DEPTH_ZERO_TO_ONE=1 _CRT_SECURE_NO_WARNINGS=1)
 
