@@ -27,9 +27,9 @@ namespace Quest
 	}
 
 	template <typename T>
-	using ScopePtr = std::unique_ptr<T>;
+	using ScopedPtr = std::unique_ptr<T>;
 	template<typename T, typename ... Args>
-	constexpr ScopePtr<T> CreateScope(Args&& ... args)
+	constexpr ScopedPtr<T> CreateScope(Args&& ... args)
 	{
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}

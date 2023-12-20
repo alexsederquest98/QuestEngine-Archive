@@ -46,7 +46,7 @@ namespace Quest
 		ServiceLocator::RegisterDeviceContext(m_DeviceContext.get());
 		ServiceLocator::RegisterRenderDevice(m_GraphicsDevice.get());
 		QE_CORE_CRITICAL("Application Initialized");
-		QE_CORE_WARN("{}", VulkanRendererTest());
+		//QE_CORE_WARN("{}", VulkanRendererTest());
 	}
 
 	Application::~Application()

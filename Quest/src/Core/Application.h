@@ -70,5 +70,5 @@ namespace Quest
 	};
 
 	// Defined in the client
-	ScopePtr<Application> CreateApplication(Application::ApplicationSpecification spec);
+	ScopedPtr<Application> CreateApplication(Application::ApplicationSpecification spec);
 }

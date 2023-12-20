@@ -14,6 +14,6 @@ SandboxApp::~SandboxApp()
 
 }
 
-Quest::Scope<Quest::Application> Quest::CreateApplication(Application::ApplicationSpecification spec) {
+Quest::ScopedPtr<Quest::Application> Quest::CreateApplication(Application::ApplicationSpecification spec) {
 	return Quest::CreateScope<SandboxApp>(spec);
 } 
