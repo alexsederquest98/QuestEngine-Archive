@@ -1,0 +1,3 @@
+trace: none/gray
+debug: blue
+info : green

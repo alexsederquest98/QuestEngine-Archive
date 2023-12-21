@@ -14,12 +14,12 @@ namespace Quest
 		GraphicsEngine();
 		~GraphicsEngine();
 
-		RefPtr<IDeviceContext> GetContext();
-		RefPtr<IDeviceContext> GetContext() const;
-		RefPtr<IRenderDevice> GetRenderDevice();
-		RefPtr<IRenderDevice> GetRenderDevice() const;
-		RefPtr<ISwapChain> GetSwapChain();
-		RefPtr<ISwapChain> GetSwapChain() const;
+		inline RefPtr<IDeviceContext> GetContext();
+		inline RefPtr<IDeviceContext> GetContext() const;
+		inline RefPtr<IRenderDevice> GetRenderDevice();
+		inline RefPtr<IRenderDevice> GetRenderDevice() const;
+		inline RefPtr<ISwapChain> GetSwapChain();
+		inline RefPtr<ISwapChain> GetSwapChain() const;
 
 	private:
 		RefPtr<IDeviceContext> m_Context;
